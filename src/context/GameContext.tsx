@@ -64,6 +64,7 @@ interface GameContextType {
   updateConfig: (config: Partial<GameConfig>) => void;
   startGame: () => void;
   advanceFirstNight: () => void;
+  confirmReady: () => void;
   advancePhase: () => void;
   proposeTeam: (memberIds: string[]) => void;
   submitVote: (approve: boolean) => void;
@@ -262,6 +263,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     socketRef.current!.emit('game:advanceFirstNight');
   }, []);
 
+  const confirmReady = useCallback(() => {
+    socketRef.current!.emit('game:confirmReady');
+  }, []);
+
   const advancePhase = useCallback(() => {
     socketRef.current!.emit('game:advancePhase');
   }, []);
@@ -352,6 +357,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         updateConfig,
         startGame,
         advanceFirstNight,
+        confirmReady,
         advancePhase,
         proposeTeam,
         submitVote,

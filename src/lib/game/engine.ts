@@ -59,6 +59,7 @@ export function createRoom(hostName: string, hostSocketId: string, avatarIndex?:
     result: null,
     firstNightStep: 0,
     chatMessages: [],
+    readyPlayerIds: [],
   };
   return { room, hostId };
 }
@@ -158,6 +159,7 @@ export function startGame(room: Room): Room {
   room.assassinGuessesRemaining = playerCount >= 10 ? 2 : 1;
   room.result = null;
   room.firstNightStep = 0;
+  room.readyPlayerIds = [];
   room.phase = GamePhase.RoleReveal;
 
   return room;
@@ -732,6 +734,7 @@ export function restartToLobby(room: Room): Room {
   room.result = null;
   room.firstNightStep = 0;
   room.chatMessages = [];
+  room.readyPlayerIds = [];
 
   // Clear role assignments
   room.players.forEach(p => {

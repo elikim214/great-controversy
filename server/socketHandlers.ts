@@ -313,6 +313,13 @@ export function registerSocketHandlers(
       // Initialize bot states after roles are assigned
       initializeBotStates(room);
 
+      // Bots auto-confirm ready
+      for (const player of room.players) {
+        if (player.isBot && !room.readyPlayerIds.includes(player.id)) {
+          room.readyPlayerIds.push(player.id);
+        }
+      }
+
       broadcastRoomState(io, room);
 
       // Send private role info to each player (skip bots)
@@ -326,6 +333,19 @@ export function registerSocketHandlers(
       triggerBots(io, room);
     });
 
+    // ---- Confirm Ready (role reveal) ----
+    socket.on('game:confirmReady', () => {
+      const room = getRoomForSocket(socket.id);
+      if (!room) return;
+      if (room.phase !== GamePhase.RoleReveal) return;
+      const requester = room.players.find(p => p.socketId === socket.id);
+      if (!requester) return;
+      if (!room.readyPlayerIds.includes(requester.id)) {
+        room.readyPlayerIds.push(requester.id);
+      }
+      broadcastRoomState(io, room);
+    });
+
     // ---- Advance First Night ----
     socket.on('game:advanceFirstNight', () => {
       const room = getRoomForSocket(socket.id);
@@ -334,6 +354,14 @@ export function registerSocketHandlers(
       if (!requester?.isHost) return;
 
       if (room.phase !== GamePhase.RoleReveal && room.phase !== GamePhase.FirstNight) return;
+
+      // Check all non-bot players are ready
+      const humanPlayers = room.players.filter(p => !p.isBot);
+      const allReady = humanPlayers.every(p => room.readyPlayerIds.includes(p.id));
+      if (room.phase === GamePhase.RoleReveal && !allReady) {
+        socket.emit('room:error', 'Not all players have confirmed they are ready.');
+        return;
+      }
 
       advanceFirstNight(room);
       broadcastRoomState(io, room);
@@ -753,6 +781,7 @@ function sanitizeRoomState(room: Room): ClientRoomState {
     firstNightStep: room.firstNightStep,
     evangelistHasActedThisMission: room.evangelistHasActedThisMission,
     chatMessages: room.chatMessages,
+    readyPlayerIds: room.readyPlayerIds || [],
   };
 }
 

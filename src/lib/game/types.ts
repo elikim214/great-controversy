@@ -171,6 +171,9 @@ export interface Room {
   // First night tracking
   firstNightStep: number;
 
+  // Role reveal ready confirmation
+  readyPlayerIds: string[];
+
   // Chat
   chatMessages: ChatMessage[];
 }
@@ -203,6 +206,7 @@ export interface ClientToServerEvents {
   'game:submitMissionAction': (data: { sabotage: boolean }) => void;
   'game:evangelistConvert': (data: { targetId: string }) => void;
   'game:assassinGuess': (data: { targetId: string }) => void;
+  'game:confirmReady': () => void;
   'game:restart': () => void;
   'game:returnToLobby': () => void;
   'room:addBot': (data: { name?: string }, callback: (res: { success: boolean; botId?: string; error?: string }) => void) => void;
@@ -240,6 +244,7 @@ export interface ClientRoomState {
   firstNightStep: number;
   evangelistHasActedThisMission: boolean;
   chatMessages: ChatMessage[];
+  readyPlayerIds: string[];
 }
 
 /** Player info visible to all clients */

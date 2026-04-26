@@ -109,7 +109,7 @@ export default function GameRoom() {
     phaseMessage, clearPhaseMessage, conversionResult, clearConversionResult,
     assassinResult, babylonAlert, clearBabylonAlert, angelAlert, clearAngelAlert,
     addBot, removeBot,
-    kickPlayer, updateConfig, startGame, advanceFirstNight, advancePhase,
+    kickPlayer, updateConfig, startGame, advanceFirstNight, confirmReady, advancePhase,
     proposeTeam, submitVote, submitMissionAction,
     evangelistConvert, assassinGuess, restartGame, returnToLobby,
   } = useGame();
@@ -657,29 +657,74 @@ export default function GameRoom() {
               <div className="space-y-4">
                 <div className="bg-danger/10 border border-danger/30 rounded-xl p-3 text-center animate-fade-in">
                   <p className="text-danger text-sm font-bold">
-                    Memorize the secret information below! You can view your role card anytime during the game, but these secrets will NOT be shown again.
+                    Memorize the secret information below! You can view your role card anytime, but these secrets will NOT be shown again.
                   </p>
                 </div>
                 <RoleCard info={privateInfo} players={roomState.players} />
-                {isHost && (
-                  <div className="space-y-3 animate-slide-up delay-300">
-                    <div className="bg-blue/10 border border-blue/30 rounded-xl p-3 text-center">
-                      <p className="text-light text-sm font-bold mb-1">
-                        Host: Wait for ALL players
-                      </p>
-                      <p className="text-muted text-xs">
-                        Make sure every player has memorized their secret information before continuing.
-                        Ask everyone to confirm they are ready.
-                      </p>
-                    </div>
-                    <button onClick={advanceFirstNight} className="btn btn-primary w-full">
-                      Everyone is Ready — Begin Missions
-                    </button>
+
+                {/* Ready confirmation button */}
+                {!roomState.readyPlayerIds?.includes(myId) ? (
+                  <button onClick={() => { confirmReady(); }} className="btn btn-success w-full animate-fade-in-up delay-200">
+                    I Have Memorized My Secrets
+                  </button>
+                ) : (
+                  <div className="text-center text-success text-sm font-bold animate-fade-in">
+                    You are ready
                   </div>
                 )}
-                {!isHost && (
+
+                {/* Ready count */}
+                {(() => {
+                  const humanPlayers = roomState.players.filter(p => !p.isBot);
+                  const readyCount = roomState.readyPlayerIds?.filter(id => humanPlayers.some(p => p.id === id)).length || 0;
+                  const totalHumans = humanPlayers.length;
+                  const allReady = readyCount >= totalHumans;
+                  return (
+                    <div className="text-center text-xs text-muted animate-fade-in delay-300">
+                      <p>{readyCount} of {totalHumans} players ready</p>
+                      {!allReady && (
+                        <div className="mt-2 flex flex-wrap justify-center gap-1">
+                          {humanPlayers.map(p => (
+                            <span key={p.id} className={`px-2 py-0.5 rounded-full text-[10px] ${
+                              roomState.readyPlayerIds?.includes(p.id)
+                                ? 'bg-success/20 text-success'
+                                : 'bg-card border border-card-border text-muted'
+                            }`}>
+                              {p.displayName}
+                            </span>
+                          ))}
+                        </div>
+                      )}
+                    </div>
+                  );
+                })()}
+
+                {isHost && (
+                  <div className="space-y-3 animate-slide-up delay-300">
+                    {(() => {
+                      const humanPlayers = roomState.players.filter(p => !p.isBot);
+                      const readyCount = roomState.readyPlayerIds?.filter(id => humanPlayers.some(p => p.id === id)).length || 0;
+                      const allReady = readyCount >= humanPlayers.length;
+                      return allReady ? (
+                        <button onClick={advanceFirstNight} className="btn btn-primary w-full animate-scale-in">
+                          All Players Ready — Begin Missions
+                        </button>
+                      ) : (
+                        <div className="bg-blue/10 border border-blue/30 rounded-xl p-3 text-center">
+                          <p className="text-light text-sm font-bold mb-1">
+                            Waiting for all players to confirm...
+                          </p>
+                          <p className="text-muted text-xs">
+                            Each player must tap "I Have Memorized My Secrets" before you can continue.
+                          </p>
+                        </div>
+                      );
+                    })()}
+                  </div>
+                )}
+                {!isHost && roomState.readyPlayerIds?.includes(myId) && (
                   <p className="text-center text-muted text-sm pulse-glow animate-fade-in delay-300">
-                    Memorize the secrets above. You can always view your role card during the game. The host will continue when everyone is ready.
+                    Waiting for all players to confirm and host to begin missions...
                   </p>
                 )}
               </div>
