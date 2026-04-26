@@ -150,7 +150,7 @@ export default function LandingPage() {
             />
             <div>
               <p className="text-xs text-muted mb-2 text-center">Choose your avatar</p>
-              <div className="grid grid-cols-6 gap-2 max-h-[180px] overflow-y-auto p-1">
+              <div className="grid grid-cols-5 gap-3 max-h-[280px] overflow-y-auto p-1">
                 {Array.from({ length: 30 }, (_, i) => {
                   const m = pickMissionary(i);
                   const fallback = getMissionaryAvatarUrl(m.avatarSeed, i);
@@ -216,7 +216,7 @@ export default function LandingPage() {
             />
             <div>
               <p className="text-xs text-muted mb-2 text-center">Choose your avatar</p>
-              <div className="grid grid-cols-6 gap-2 max-h-[180px] overflow-y-auto p-1">
+              <div className="grid grid-cols-5 gap-3 max-h-[280px] overflow-y-auto p-1">
                 {Array.from({ length: 30 }, (_, i) => {
                   const m = pickMissionary(i);
                   const fallback = getMissionaryAvatarUrl(m.avatarSeed, i);
