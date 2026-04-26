@@ -248,7 +248,7 @@ export function resolveVote(room: Room): Room | null {
       // 5 consecutive rejections — Babylon wins the GAME
       room.result = {
         winner: Alignment.Babylon,
-        reason: 'Five team proposals rejected in a row. Mission work has ceased and the gospel cannot reach the unreached. Babylon prevails as Jesus\' second coming is delayed.',
+        reason: 'Five team proposals rejected in a row. Mission work has ceased and the gospel cannot reach the unreached. Babylon prevails...for now.',
         missionSuccesses: countMissionResults(room, 'success'),
         missionFailures: countMissionResults(room, 'failure'),
       };
@@ -420,7 +420,7 @@ export function assassinGuess(room: Room, targetId: string): Room {
     // Babylon wins by assassination
     room.result = {
       winner: Alignment.Babylon,
-      reason: 'The Assassin identified the Angel! Babylon prevails as the light is extinguished.',
+      reason: 'The Assassin identified the Angel! Babylon prevails...for now.',
       missionSuccesses: countMissionResults(room, 'success'),
       missionFailures: countMissionResults(room, 'failure'),
       assassinGuessCorrect: true,
@@ -469,7 +469,7 @@ export function checkWinCondition(room: Room): GameResult | null {
   if (failures >= MISSIONS_TO_WIN) {
     return {
       winner: Alignment.Babylon,
-      reason: 'The second coming is delayed. Babylon has prevailed.',
+      reason: 'The second coming is delayed. Babylon has prevailed...for now.',
       missionSuccesses: successes,
       missionFailures: failures,
     };
@@ -641,7 +641,7 @@ export function handlePlayerRemoval(
           if (room.consecutiveRejections >= MAX_REJECTIONS) {
             room.result = {
               winner: Alignment.Babylon,
-              reason: 'Five team proposals rejected in a row. Babylon prevails.',
+              reason: 'Five team proposals rejected in a row. Babylon prevails...for now.',
               missionSuccesses: countMissionResults(room, 'success'),
               missionFailures: countMissionResults(room, 'failure'),
             };
