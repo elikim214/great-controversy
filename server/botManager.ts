@@ -492,6 +492,7 @@ function buildBotClientState(room: Room): ClientRoomState {
     firstNightStep: room.firstNightStep,
     evangelistHasActedThisMission: room.evangelistHasActedThisMission,
     chatMessages: room.chatMessages,
+    readyPlayerIds: room.readyPlayerIds || [],
   };
 }
 
