@@ -46,11 +46,7 @@ export default function RoleRevealCard({ role, alignment, description, onReveale
     if (flipped) return;
     cardFlip();
     setFlipped(true);
-    // Total animation duration: 900ms
-    setTimeout(() => {
-      onRevealed();
-    }, 950);
-  }, [flipped, onRevealed]);
+  }, [flipped]);
 
   return (
     <div className="flex flex-col items-center gap-5">
@@ -227,13 +223,24 @@ export default function RoleRevealCard({ role, alignment, description, onReveale
       </div>
 
       {/* Reveal button */}
-      {!flipped && (
+      {!flipped && !startFlipped && (
         <button
           onClick={handleReveal}
           className="btn btn-primary animate-pulse-soft"
           style={{ minWidth: 200 }}
         >
           Tap to Reveal
+        </button>
+      )}
+
+      {/* Continue button — shown after flip */}
+      {flipped && !startFlipped && (
+        <button
+          onClick={onRevealed}
+          className="btn btn-primary animate-fade-in"
+          style={{ minWidth: 200 }}
+        >
+          Continue
         </button>
       )}
     </div>
