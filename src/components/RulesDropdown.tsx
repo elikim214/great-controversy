@@ -35,7 +35,7 @@ Dark Angel (7+ players only) \u2014 A Babylon agent who appears as a possible An
 2. All players vote to Approve or Reject the team
 3. If approved, team members privately choose to Support or Sabotage
 4. The result is revealed \u2014 1 sabotage card fails the mission
-5. Special: With 7+ players, Mission 4 requires 2 sabotage cards to fail
+5. Special: Mission 4 always requires 2 sabotage cards to fail
 
 If 5 team proposals are rejected in a row, Babylon wins the game \u2014 mission work has stopped and the second coming is delayed.
 
@@ -64,11 +64,13 @@ Assassin override: If good completes 3 missions first, the game pauses. The Assa
   },
   {
     title: 'Scaling by Player Count',
-    content: `5\u20136 players: No Evangelist, no Dark Angel. Assassin gets 1 guess. All missions need 1 sabotage to fail.
+    content: `Mission 4 always requires 2 sabotage cards to fail (all player counts). Team sizes follow Avalon\u2019s balanced design.
 
-7\u20139 players: Evangelist investigates (learns alignment, no conversion). Dark Angel confuses the Prophet. Assassin gets 1 guess. Mission 4 requires 2 sabotages to fail.
+5\u20136 players: No Evangelist, no Dark Angel. Assassin gets 1 guess. Teams: 2/3/2/3/3 (5p) or 2/3/4/3/4 (6p).
 
-10+ players: Evangelist can convert Babylon agents. Dark Angel confuses the Prophet. Assassin gets 2 guesses. Mission 4 requires 2 sabotages to fail.`,
+7\u20139 players: Evangelist investigates (learns alignment, no conversion). Dark Angel confuses the Prophet. Assassin gets 1 guess.
+
+10+ players: Evangelist can convert Babylon agents. Dark Angel confuses the Prophet. Assassin gets 2 guesses.`,
   },
   {
     title: 'Chat, Notes & Accusations',
