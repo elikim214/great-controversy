@@ -712,3 +712,25 @@ input.room-code-input {
   );
   animation: fogDrift 2s ease-in-out infinite alternate;
 }
+
+/* ============================================
+   LEADER CROWN ANIMATION
+   ============================================ */
+
+@keyframes leaderGlow {
+  0%, 100% { box-shadow: 0 0 4px rgba(200, 164, 78, 0.3), 0 0 8px rgba(74, 144, 217, 0.2); }
+  50% { box-shadow: 0 0 8px rgba(200, 164, 78, 0.5), 0 0 16px rgba(74, 144, 217, 0.3); }
+}
+
+@keyframes crownBounce {
+  0%, 100% { transform: translateY(0) rotate(-5deg); }
+  50% { transform: translateY(-2px) rotate(5deg); }
+}
+
+.leader-avatar-glow {
+  animation: leaderGlow 2s ease-in-out infinite;
+}
+
+.leader-crown {
+  animation: crownBounce 3s ease-in-out infinite;
+}

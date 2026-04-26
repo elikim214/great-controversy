@@ -59,6 +59,7 @@ export interface ChatMessage {
   targetId?: string;       // for accusations
   targetName?: string;     // for accusations
   timestamp: number;
+  reactions?: Record<string, string[]>; // emoji -> array of player IDs who reacted
 }
 
 /** A connected player */
@@ -215,6 +216,7 @@ export interface ClientToServerEvents {
   'room:removeBot': (data: { botId: string }) => void;
   'chat:send': (data: { text: string }) => void;
   'chat:accuse': (data: { targetId: string; reason: string }) => void;
+  'chat:react': (data: { messageId: string; emoji: string }) => void;
 }
 
 /** Events the server sends to clients */
@@ -228,6 +230,7 @@ export interface ServerToClientEvents {
   'angel:conversionNotice': (data: { convertedName: string }) => void;
   'game:phaseMessage': (message: { title: string; body: string }) => void;
   'chat:message': (message: ChatMessage) => void;
+  'chat:reaction': (data: { messageId: string; reactions: Record<string, string[]> }) => void;
 }
 
 /** Room state sanitized for a specific client (no other players' secrets) */

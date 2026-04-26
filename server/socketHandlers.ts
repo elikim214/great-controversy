@@ -662,6 +662,42 @@ export function registerSocketHandlers(
       io.to(room.code).emit('chat:message', message);
     });
 
+    // ---- Chat: React ----
+    socket.on('chat:react', (data) => {
+      const room = getRoomForSocket(socket.id);
+      if (!room) return;
+      const sender = room.players.find(p => p.socketId === socket.id);
+      if (!sender) return;
+      if (!data.messageId || !data.emoji) return;
+
+      const ALLOWED_EMOJIS = ['👍', '👀', '🙏', '🔥'];
+      if (!ALLOWED_EMOJIS.includes(data.emoji)) return;
+
+      const message = room.chatMessages.find(m => m.id === data.messageId);
+      if (!message) return;
+
+      // Initialize reactions if needed
+      if (!message.reactions) message.reactions = {};
+      if (!message.reactions[data.emoji]) message.reactions[data.emoji] = [];
+
+      // Toggle: remove if already reacted, add if not
+      const idx = message.reactions[data.emoji].indexOf(sender.id);
+      if (idx >= 0) {
+        message.reactions[data.emoji].splice(idx, 1);
+        if (message.reactions[data.emoji].length === 0) {
+          delete message.reactions[data.emoji];
+        }
+      } else {
+        message.reactions[data.emoji].push(sender.id);
+      }
+
+      // Broadcast updated reactions for this message
+      io.to(room.code).emit('chat:reaction', {
+        messageId: message.id,
+        reactions: message.reactions,
+      });
+    });
+
     // ---- Disconnect ----
     socket.on('disconnect', () => {
       console.log(`[Socket] Disconnected: ${socket.id}`);

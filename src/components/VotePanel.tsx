@@ -317,14 +317,26 @@ function VoteHistory({ pastProposals, players }: {
                 </div>
                 <div className="space-y-0.5">
                   {Object.entries(votes).map(([playerId, approved]) => {
-                    const name = players.find(p => p.id === playerId)?.displayName;
+                    const player = players.find(p => p.id === playerId);
+                    if (!player) return null;
                     return (
                       <div key={playerId} className="flex items-center gap-1.5">
-                        <span
-                          className="w-1.5 h-1.5 rounded-full flex-shrink-0"
-                          style={{ background: approved ? 'var(--success)' : 'var(--danger)' }}
-                        />
-                        <span className="text-foreground/70">{name}</span>
+                        <div
+                          className="flex-shrink-0 rounded-full overflow-hidden"
+                          style={{
+                            width: 20,
+                            height: 20,
+                            border: `2px solid ${approved ? 'var(--success)' : 'var(--danger)'}`,
+                          }}
+                        >
+                          <img
+                            src={`/avatars/avatar-${String(player.avatarIndex + 1).padStart(2, '0')}.png`}
+                            alt={player.displayName}
+                            className="w-full h-full object-cover"
+                            style={{ background: 'var(--card-bg)' }}
+                          />
+                        </div>
+                        <span className="text-foreground/70">{player.displayName}</span>
                       </div>
                     );
                   })}

@@ -6,7 +6,7 @@ import type { ChatMessage, ClientPlayer } from '@/lib/game/types';
 import { chatNotification } from '@/lib/game/sounds';
 
 export default function ChatPanel() {
-  const { chatMessages, sendChat, sendAccusation, roomState, session } = useGame();
+  const { chatMessages, sendChat, sendAccusation, sendReaction, roomState, session } = useGame();
   const [expanded, setExpanded] = useState(false);
   const [inputText, setInputText] = useState('');
   const [unreadCount, setUnreadCount] = useState(0);
@@ -124,7 +124,7 @@ export default function ChatPanel() {
                 <p className="text-muted text-xs text-center italic mt-4">No messages yet</p>
               )}
               {chatMessages.map((msg) => (
-                <ChatBubble key={msg.id} message={msg} myId={myId} />
+                <ChatBubble key={msg.id} message={msg} myId={myId} onReact={sendReaction} />
               ))}
               <div ref={messagesEndRef} />
             </div>
@@ -207,7 +207,7 @@ export default function ChatPanel() {
   );
 }
 
-function ChatBubble({ message, myId }: { message: ChatMessage; myId: string }) {
+function ChatBubble({ message, myId, onReact }: { message: ChatMessage; myId: string; onReact: (messageId: string, emoji: string) => void }) {
   const isMe = message.senderId === myId;
 
   if (message.type === 'system') {
@@ -235,6 +235,8 @@ function ChatBubble({ message, myId }: { message: ChatMessage; myId: string }) {
     );
   }
 
+  const REACTION_EMOJIS = ['👍', '👀', '🙏', '🔥'];
+
   return (
     <div className={`animate-fade-in py-0.5 ${isMe ? 'text-right' : ''}`}>
       <p className="text-sm">
@@ -244,6 +246,37 @@ function ChatBubble({ message, myId }: { message: ChatMessage; myId: string }) {
         <span className="text-muted"> </span>
         <span className="text-foreground/80">{message.text}</span>
       </p>
+      {/* Reactions display */}
+      {message.reactions && Object.keys(message.reactions).length > 0 && (
+        <div className={`flex gap-1 mt-0.5 ${isMe ? 'justify-end' : ''}`}>
+          {Object.entries(message.reactions).map(([emoji, playerIds]) => (
+            <button
+              key={emoji}
+              onClick={() => onReact(message.id, emoji)}
+              className="text-[10px] px-1.5 py-0.5 rounded-full transition-colors"
+              style={{
+                background: playerIds.includes(myId) ? 'rgba(74,144,217,0.2)' : 'rgba(255,255,255,0.05)',
+                border: playerIds.includes(myId) ? '1px solid rgba(74,144,217,0.3)' : '1px solid rgba(255,255,255,0.08)',
+              }}
+            >
+              {emoji} {playerIds.length}
+            </button>
+          ))}
+        </div>
+      )}
+      {/* Reaction buttons (show on hover/focus area) */}
+      <div className={`flex gap-0.5 mt-0.5 opacity-0 hover:opacity-100 focus-within:opacity-100 transition-opacity ${isMe ? 'justify-end' : ''}`}>
+        {REACTION_EMOJIS.map(emoji => (
+          <button
+            key={emoji}
+            onClick={() => onReact(message.id, emoji)}
+            className="text-[11px] px-1 py-0.5 rounded hover:bg-white/10 transition-colors"
+            title={emoji}
+          >
+            {emoji}
+          </button>
+        ))}
+      </div>
     </div>
   );
 }

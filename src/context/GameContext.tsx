@@ -53,6 +53,7 @@ interface GameContextType {
   chatMessages: ChatMessage[];
   sendChat: (text: string) => void;
   sendAccusation: (targetId: string, reason: string) => void;
+  sendReaction: (messageId: string, emoji: string) => void;
 
   // Actions
   createRoom: (displayName: string, avatarIndex?: number) => Promise<{ roomCode: string; playerId: string } | null>;
@@ -146,6 +147,11 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         return next.length > 100 ? next.slice(-100) : next;
       });
     });
+    socket.on('chat:reaction', (data: { messageId: string; reactions: Record<string, string[]> }) => {
+      setChatMessages(prev => prev.map(msg =>
+        msg.id === data.messageId ? { ...msg, reactions: data.reactions } : msg
+      ));
+    });
 
     // Try to restore session on mount
     const saved = loadSession();
@@ -165,6 +171,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
       socket.off('babylon:teammateConverted');
       socket.off('angel:conversionNotice');
       socket.off('chat:message');
+      socket.off('chat:reaction');
     };
   }, []);
 
@@ -299,6 +306,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     socketRef.current!.emit('chat:accuse', { targetId, reason });
   }, []);
 
+  const sendReaction = useCallback((messageId: string, emoji: string) => {
+    socketRef.current!.emit('chat:react', { messageId, emoji });
+  }, []);
+
   const restartGame = useCallback(() => {
     socketRef.current!.emit('game:restart');
     setPrivateInfo(null);
@@ -348,6 +359,7 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         chatMessages,
         sendChat,
         sendAccusation,
+        sendReaction,
         createRoom,
         joinRoom,
         rejoinRoom,

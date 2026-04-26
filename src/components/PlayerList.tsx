@@ -79,23 +79,34 @@ export default function PlayerList({
             >
               <div className="flex items-center gap-3">
                 {/* Missionary avatar with colored ring */}
-                <div
-                  className="flex-shrink-0 rounded-full p-[2px]"
-                  style={{
-                    background: isLeader ? 'var(--accent-blue)' : 'var(--accent-gold)',
-                    width: 40,
-                    height: 40,
-                  }}
-                >
-                  <img
-                    src={avatarImageUrl}
-                    alt={missionary.name}
-                    className="w-full h-full rounded-full object-cover"
-                    style={{ background: 'var(--card-bg)' }}
-                    onError={(e) => {
-                      (e.target as HTMLImageElement).src = fallbackUrl;
+                <div className="relative flex-shrink-0">
+                  {/* Crown icon for leader */}
+                  {isLeader && (
+                    <span
+                      className="absolute -top-2 left-1/2 -translate-x-1/2 text-[12px] leader-crown z-10"
+                      aria-hidden="true"
+                    >
+                      👑
+                    </span>
+                  )}
+                  <div
+                    className={`rounded-full p-[2px] ${isLeader ? 'leader-avatar-glow' : ''}`}
+                    style={{
+                      background: isLeader ? 'var(--accent-blue)' : 'var(--accent-gold)',
+                      width: 40,
+                      height: 40,
                     }}
-                  />
+                  >
+                    <img
+                      src={avatarImageUrl}
+                      alt={missionary.name}
+                      className="w-full h-full rounded-full object-cover"
+                      style={{ background: 'var(--card-bg)' }}
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = fallbackUrl;
+                      }}
+                    />
+                  </div>
                 </div>
                 <div className="min-w-0">
                   <div className="flex items-center gap-2">
