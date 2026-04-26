@@ -21,6 +21,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Silk Road once carried Nestorian Christianity deep into Asia, and ancient church ruins still dot the landscape. After centuries of Islamic rule and 70 years of Soviet suppression, the region emerged in the 1990s with almost no indigenous Christian witness. Seventh-day Adventist work began here in the early 1900s but was severely disrupted by persecution.',
     population: '~60 million unreached',
     callToAction: 'The same roads that once carried the gospel east are waiting to hear it again — every nation, kindred, tongue, and people.',
+    lat: 41,
+    lng: 64,
   },
   {
     id: 'loc-02',
@@ -35,6 +37,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'William Carey brought the gospel to Bengal in the late 1700s, and the region became a hub for Bible translation. Yet despite over two centuries of Christian presence, vast populations along the delta remain unreached. Adventist mission work in the region has focused on health and education but reaches only a fraction of the population.',
     population: '~250 million unreached',
     callToAction: 'In the land where modern missions began, millions still wait to hear the everlasting gospel and the hope of Christ\'s soon return.',
+    lat: 23,
+    lng: 80,
   },
   {
     id: 'loc-03',
@@ -49,6 +53,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Islam spread across the Sahel through trade routes beginning in the 8th century, blending with local animist traditions. Christianity arrived later through European colonialism and has grown mostly in the southern regions. The Adventist Church has established schools and clinics, but the northern Sahel remains one of the least-reached regions on Earth.',
     population: '~100 million unreached',
     callToAction: 'Where the desert meets the savanna, God is calling workers to bring living water to those who thirst for truth.',
+    lat: 10,
+    lng: -5,
   },
   {
     id: 'loc-04',
@@ -63,6 +69,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Nestorian missionaries reached China as early as 635 AD, and Jesuit missions followed centuries later. Protestant missions in the 19th century saw significant growth, but the mid-20th century brought severe persecution and the closure of all foreign missions. Underground house churches have grown remarkably despite ongoing pressure.',
     population: '~400 million unreached',
     callToAction: 'Behind the mountains and beyond the restrictions, hearts are being prepared — the Three Angels\' Messages must reach every village.',
+    lat: 35,
+    lng: 110,
   },
   {
     id: 'loc-05',
@@ -77,6 +85,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Portuguese missionaries brought Christianity in the 16th century, and Islam had arrived even earlier through Arab traders. Today the region is a mosaic of faith, with some islands predominantly Christian and others firmly Muslim. Adventist work has been fruitful on certain islands, with strong institutions in health and education.',
     population: '~85 million unreached',
     callToAction: 'Across thousands of islands, the message of hope must travel by boat, by foot, and by faith to every shore.',
+    lat: 5,
+    lng: 108,
   },
   {
     id: 'loc-06',
@@ -91,6 +101,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Christianity existed in Arabia before Islam, with churches established along the Persian Gulf coast. The rise of Islam in the 7th century eventually eliminated nearly all Christian presence. Today, millions of Christian migrant workers live on the peninsula, creating an unexpected mission field, but reaching Arab nationals remains one of the greatest challenges in world missions.',
     population: '~55 million unreached',
     callToAction: 'In the land where Abraham journeyed and prophets walked, God still has people who will respond to His final call.',
+    lat: 30,
+    lng: 42,
   },
   {
     id: 'loc-07',
@@ -105,6 +117,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The steppe peoples have a rich spiritual heritage blending sky-worship (Tengrism) with Islam adopted centuries ago through trade and conquest. Soviet-era suppression of religion left a spiritual vacuum that has been filled unevenly. Small Adventist congregations exist in urban areas but have had minimal impact on the vast rural steppe.',
     population: '~20 million unreached',
     callToAction: 'Under the vast sky of the steppe, the Creator is calling His children home — the gospel must ride to every yurt and village.',
+    lat: 39,
+    lng: 68,
   },
   {
     id: 'loc-08',
@@ -119,6 +133,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Ethiopia and the Great Lakes region have some of the oldest Christian traditions in the world, dating to the Ethiopian eunuch in Acts. Yet many ethnic groups in the highlands and lake regions have had minimal exposure to biblical Christianity. Adventist work in East Africa has seen strong growth, but significant unreached pockets remain.',
     population: '~30 million unreached',
     callToAction: 'At the source of the Nile, the living water of the gospel can flow to communities that have waited for generations.',
+    lat: -2,
+    lng: 37,
   },
   {
     id: 'loc-09',
@@ -133,6 +149,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Tibetan Buddhism has shaped Himalayan culture for over a thousand years, creating a rich but insular spiritual world. Early Moravian missionaries made limited inroads in Ladakh in the 1800s, but most Himalayan communities have never had sustained Christian witness. The region remains one of the least evangelized on Earth.',
     population: '~15 million unreached',
     callToAction: 'At the roof of the world, where prayer flags flutter in the wind, the message of a soon-coming Savior has yet to be heard.',
+    lat: 27,
+    lng: 84,
   },
   {
     id: 'loc-10',
@@ -147,6 +165,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Theravada Buddhism arrived in the Mekong region over a thousand years ago and became the state religion of multiple kingdoms. Christian missions began in earnest in the 19th century but made limited headway among Buddhist-majority populations. Adventist work in the region has focused on urban centers, leaving vast rural stretches along the river largely untouched.',
     population: '~70 million unreached',
     callToAction: 'Along the Mekong\'s banks, where golden temples glow at sunset, millions are waiting to discover the true Light of the world.',
+    lat: 15,
+    lng: 103,
   },
   {
     id: 'loc-11',
@@ -161,6 +181,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'North Africa was once a stronghold of early Christianity — home to Augustine, Tertullian, and Cyprian. The Arab conquest of the 7th century gradually replaced Christianity with Islam. Today, a quiet movement of Berber believers is growing, but the vast majority have never heard a clear presentation of the gospel.',
     population: '~25 million unreached',
     callToAction: 'In the land of Augustine and the early church fathers, the seeds of faith are stirring again — the harvest is not forgotten.',
+    lat: 28,
+    lng: 8,
   },
   {
     id: 'loc-12',
@@ -175,6 +197,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Persia was one of the earliest regions to receive the gospel, with tradition placing the apostle Thomas passing through on his way east. The Persian church thrived for centuries before the Islamic conquest. In recent decades, disillusionment with the religious establishment has driven unprecedented openness to Christianity, creating a remarkable underground movement.',
     population: '~80 million unreached',
     callToAction: 'Behind closed doors across the Persian Plateau, the Holy Spirit is moving with power — pray that the light cannot be hidden.',
+    lat: 32,
+    lng: 53,
   },
   {
     id: 'loc-13',
@@ -189,6 +213,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Bay of Bengal coast has been a crossroads of trade and religion for millennia, with influences from India, Arabia, and Southeast Asia. Adoniram Judson, one of the first American missionaries, labored here for decades in the early 1800s. Adventist work exists in the region but faces significant challenges reaching the diverse coastal communities.',
     population: '~45 million unreached',
     callToAction: 'Along the Bay of Bengal, where fishermen cast their nets each morning, the call goes out: come and fish for people.',
+    lat: 21,
+    lng: 86,
   },
   {
     id: 'loc-14',
@@ -203,6 +229,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Mongol Empire under Genghis Khan was surprisingly tolerant of religions, and Nestorian Christians held significant influence in the medieval court. The later adoption of Tibetan Buddhism reshaped Mongolian identity. After decades of Soviet-influenced atheism, a spiritual renaissance began in the 1990s, and small Christian communities have emerged in urban areas.',
     population: '~3 million unreached',
     callToAction: 'In the vast silence of the Gobi, God knows every nomad by name — the everlasting gospel is for every soul under this endless sky.',
+    lat: 43,
+    lng: 105,
   },
   {
     id: 'loc-15',
@@ -217,6 +245,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Indus Valley was home to one of the world\'s earliest civilizations and has been shaped by wave after wave of cultural and religious change. The apostle Thomas is traditionally believed to have preached in this region. Today, a small but resilient Christian community exists, facing significant persecution while bearing faithful witness.',
     population: '~190 million unreached',
     callToAction: 'In one of civilization\'s oldest cradles, the newest hope — the soon return of Jesus — must still be proclaimed.',
+    lat: 25,
+    lng: 68,
   },
   {
     id: 'loc-16',
@@ -231,6 +261,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Horn of Africa includes one of the oldest Christian nations (Ethiopia, since the 4th century) alongside deeply Muslim regions. The region has been shaped by colonialism, Cold War proxy conflicts, and devastating famines. Adventist work in Ethiopia has been remarkably fruitful, but neighboring regions like Somalia remain among the most dangerous places on Earth for Christians.',
     population: '~65 million unreached',
     callToAction: 'Where Africa meets the sea, where suffering meets courage, the message of a God who heals and restores is urgently needed.',
+    lat: 8,
+    lng: 45,
   },
   {
     id: 'loc-17',
@@ -245,6 +277,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Hudson Taylor and other pioneering missionaries established significant Christian work along the Yangtze in the 19th century. After 1949, the church went underground and emerged decades later remarkably stronger. Today, Christianity is one of the fastest-growing movements in the region, yet hundreds of millions have still not heard a clear gospel presentation.',
     population: '~300 million unreached',
     callToAction: 'In the bustling heart of the world\'s most populous region, the still small voice of the Spirit is calling millions to find rest in Christ.',
+    lat: 31,
+    lng: 118,
   },
   {
     id: 'loc-18',
@@ -259,6 +293,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Caucasus was one of the first regions to adopt Christianity, with Armenia and Georgia converting in the early 4th century. However, neighboring valleys adopted Islam centuries later. The Soviet era suppressed all religion, and the post-Soviet period has seen both revival and radicalization. Adventist congregations exist but are very small.',
     population: '~15 million unreached',
     callToAction: 'In valleys where the gospel first took root nearly two thousand years ago, fresh seeds of truth are ready to be planted.',
+    lat: 55,
+    lng: 50,
   },
   {
     id: 'loc-19',
@@ -273,6 +309,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Sundarbans have been home to forest-dwelling communities for centuries, living in harmony with the tides and the Bengal tiger. Historically overlooked by both colonial and mission efforts, these communities developed unique syncretic spiritual practices. Christian presence in the region remains minimal despite the tremendous physical and spiritual needs.',
     population: '~4 million unreached',
     callToAction: 'In the tangled waterways where land and sea blur together, the solid foundation of God\'s love is the anchor these communities need.',
+    lat: 22,
+    lng: 89,
   },
   {
     id: 'loc-20',
@@ -287,6 +325,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Rift Valley is humanity\'s birthplace, and its peoples have some of the most ancient cultural traditions on Earth. Christianity has grown significantly in urban centers and settled agricultural areas, but nomadic pastoralists like the Maasai, Turkana, and others remain largely unreached. Adventist mission stations have been established along the valley with growing success.',
     population: '~20 million unreached',
     callToAction: 'In the valley where humanity began, God\'s final message of redemption must reach every people group before the story ends.',
+    lat: -3,
+    lng: 36,
   },
   {
     id: 'loc-21',
@@ -301,6 +341,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Thar Desert has been inhabited for millennia, with communities developing sophisticated water harvesting systems to survive. Rajput warrior culture and deep Hindu devotion have defined the region\'s identity. Christian missions have had minimal presence here, and the Adventist Church has only scattered members in the surrounding cities.',
     population: '~30 million unreached',
     callToAction: 'Across the golden sands of the Thar, people of deep devotion are waiting to discover the God who knows them and calls them by name.',
+    lat: 26,
+    lng: 72,
   },
   {
     id: 'loc-22',
@@ -315,6 +357,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Fergana Valley was a major center of Islamic learning and Sufi mysticism for centuries. Soviet rule suppressed religion but couldn\'t eliminate it; underground Islamic networks survived and emerged stronger after independence. Christian witness has been sporadic and faces intense opposition from both government and community.',
     population: '~14 million unreached',
     callToAction: 'In the fertile heart of Central Asia, where ancient faith runs deep, the seeds of present truth are longing to take root.',
+    lat: 40,
+    lng: 71,
   },
   {
     id: 'loc-23',
@@ -329,6 +373,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Malay world was Hindu-Buddhist for centuries before Arab and Indian traders brought Islam in the 13th century. Portuguese and Dutch colonizers brought Christianity, which took hold among Chinese and Indian minorities but not among ethnic Malays. Adventist work in the region has focused on non-Malay communities, with reaching Muslim Malays remaining one of the great unfinished tasks.',
     population: '~25 million unreached',
     callToAction: 'At the crossroads of the world\'s busiest shipping lanes, the most precious cargo — the gospel — must still be delivered.',
+    lat: 4,
+    lng: 102,
   },
   {
     id: 'loc-24',
@@ -343,6 +389,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Tigris-Euphrates marshlands are the probable location of the biblical Garden of Eden and the cradle of civilization. The Marsh Arabs maintained a unique way of life for five thousand years until Saddam Hussein drained the marshes in the 1990s as punishment for rebellion. Partial restoration has begun, but the communities remain fragmented and traumatized.',
     population: '~500,000 unreached',
     callToAction: 'In the land where Eden once bloomed, restoration is possible — God\'s promise of a new creation offers hope to the brokenhearted.',
+    lat: 31,
+    lng: 47,
   },
   {
     id: 'loc-25',
@@ -357,6 +405,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'European missionaries entered the Congo Basin in the late 19th century alongside colonizers, creating a complicated legacy. Christianity spread rapidly but often mixed with traditional practices. The Adventist Church has one of its largest African memberships in this region, yet deep in the forest, thousands of communities remain unreached or follow a syncretic version of the faith.',
     population: '~35 million unreached',
     callToAction: 'Deep in the world\'s second-largest rainforest, the Light that shines in darkness is calling every hidden community into His marvelous light.',
+    lat: 0,
+    lng: 22,
   },
   {
     id: 'loc-26',
@@ -371,6 +421,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The oasis cities of the Taklamakan were vital Silk Road stops where Buddhism, Manichaeism, and eventually Islam flourished. Ancient Christian manuscripts have been found in desert ruins, proving the gospel reached here over a thousand years ago. Today, the Uyghur people face severe repression, and the few known believers worship in extreme secrecy.',
     population: '~12 million unreached',
     callToAction: 'Where ancient manuscripts whisper of a gospel once known and then forgotten, God has not forgotten His people — and neither must we.',
+    lat: 40,
+    lng: 80,
   },
   {
     id: 'loc-27',
@@ -385,6 +437,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Balkans have been a fault line between Christianity and Islam for over five centuries since the Ottoman conquest. The devastating wars of the 1990s were partly fought along religious and ethnic lines, leaving deep scars. Adventist work in the Balkans dates to the late 1800s and continues through small but faithful communities.',
     population: '~8 million unreached',
     callToAction: 'In Europe\'s most religiously divided region, the unifying message of God\'s love can heal wounds that politics never will.',
+    lat: 44,
+    lng: 20,
   },
   {
     id: 'loc-28',
@@ -399,6 +453,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Adoniram Judson spent decades translating the Bible into Burmese in the early 1800s, and Christianity took root especially among ethnic minorities like the Karen and Chin. The majority Bamar people remain overwhelmingly Buddhist. Adventist work began in the early 1900s and has grown among ethnic minorities, but the delta\'s Buddhist population remains largely unreached.',
     population: '~40 million unreached',
     callToAction: 'In a land shaped by storms both natural and political, the peace that passes understanding is the message the delta desperately needs.',
+    lat: 17,
+    lng: 96,
   },
   {
     id: 'loc-29',
@@ -413,6 +469,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Pamir region has been a crossroads of empires for millennia, situated along the ancient Silk Road at the junction of modern-day Tajikistan, China, Afghanistan, and Pakistan. The Ismaili community follows the Aga Khan\'s leadership and has developed a distinct cultural identity. Christian presence is virtually nonexistent, with no known established church in the region.',
     population: '~250,000 unreached',
     callToAction: 'At the roof of the world, where the sky feels close enough to touch, the God of heaven is reaching down to gather His scattered children.',
+    lat: 37,
+    lng: 73,
   },
   {
     id: 'loc-30',
@@ -427,6 +485,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Deccan has been shaped by Hindu kingdoms, Muslim sultanates, and British colonialism in succession. Dr. B.R. Ambedkar\'s mass conversion movement brought millions of Dalits to Buddhism in the 1950s as a protest against caste discrimination. Adventist work on the Deccan Plateau includes schools and hospitals that have created goodwill, but the broader population remains largely Hindu.',
     population: '~200 million unreached',
     callToAction: 'Across the vast Deccan Plateau, where ancient and modern India meet, the timeless message of freedom in Christ offers hope to every caste and community.',
+    lat: 18,
+    lng: 76,
   },
   {
     id: 'loc-31',
@@ -441,6 +501,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Pashtun people, numbering over 50 million, are the largest patriarchal ethnic group in the world without a significant Christian movement. Despite bordering regions where Christianity has existed for centuries, the Pashtun heartland has remained virtually untouched by the gospel. A handful of secret believers exist but face extreme danger if discovered.',
     population: '~50 million unreached',
     callToAction: 'Among the Pashtun, where honor and hospitality define every interaction, the gospel of grace offers a new covenant of belonging.',
+    lat: 33,
+    lng: 70,
   },
   {
     id: 'loc-32',
@@ -455,6 +517,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Baloch people have maintained a distinct identity for over a thousand years despite being divided across three modern nations. A unique Zikri sect within Baloch Islam practices rituals distinct from mainstream Sunni worship. There is no known organized Christian witness among the Baloch, and Scripture translation into Balochi dialects remains incomplete.',
     population: '~15 million unreached',
     callToAction: 'Across the windswept expanse of Balochistan, a people divided by borders but united in identity await the message that unites all nations.',
+    lat: 28,
+    lng: 64,
   },
   {
     id: 'loc-33',
@@ -469,6 +533,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Uyghurs once lived along the Silk Road where Buddhism, Manichaeism, and Nestorian Christianity all flourished before Islam became dominant around the 10th century. Ancient Christian manuscripts in Old Uyghur script prove the gospel was known here over a millennium ago. Today, the estimated 12 million Uyghurs have virtually no access to Christian witness amid severe repression.',
     population: '~12 million unreached',
     callToAction: 'Where ancient Silk Road believers once worshiped freely, a people under immense pressure need the prayers and solidarity of the global church.',
+    lat: 39,
+    lng: 76,
   },
   {
     id: 'loc-34',
@@ -483,6 +549,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Rohingya are a Muslim ethnic group from Myanmar\'s Rakhine State who have faced decades of persecution culminating in mass displacement since 2017. Over a million refugees live in camps in Cox\'s Bazar, Bangladesh. Christian humanitarian organizations serve in the camps, but evangelistic outreach among this traumatized community requires extraordinary patience and compassion.',
     population: '~2 million unreached',
     callToAction: 'Among the Rohingya, a people who have lost nearly everything, the message of a God who sees the forgotten offers hope no camp can contain.',
+    lat: 21,
+    lng: 92,
   },
   {
     id: 'loc-35',
@@ -497,6 +565,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Islam reached the Somali coast through Arab traders in the 7th century and has been central to Somali identity ever since. Colonial-era missions made almost no inroads among ethnic Somalis. Today, a small but growing number of Somali believers exist in the diaspora, using media and personal networks to share their faith, but the homeland remains one of the hardest places on Earth to follow Christ.',
     population: '~18 million unreached',
     callToAction: 'In a land of poets and survivors, the greatest story ever told is still waiting to be heard in the Somali tongue.',
+    lat: 5,
+    lng: 46,
   },
   {
     id: 'loc-36',
@@ -511,6 +581,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Kabyle are the largest Berber subgroup in Algeria, and their region was once home to flourishing early Christian communities before the Arab conquest. In recent decades, a surprising spiritual awakening has brought thousands of Kabyle to faith in Christ, making it one of the most significant movements in the Muslim world. Yet the vast majority of Kabyle people remain unreached.',
     population: '~7 million unreached',
     callToAction: 'In the mountains where Augustine\'s North African church once thrived, the Spirit is moving again among the Kabyle — pray for the harvest.',
+    lat: 36,
+    lng: 4,
   },
   {
     id: 'loc-37',
@@ -525,6 +597,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Bedouin are the original Arab people, whose culture predates Islam and whose hospitality traditions echo the biblical patriarchs. Christianity was present among some Arab tribes before Muhammad, and the New Testament mentions Arabia as a place Paul visited. Today, scattered Bedouin believers exist but face intense pressure to conform to tribal Islamic identity.',
     population: '~25 million unreached',
     callToAction: 'Under the same stars that guided Abraham through the wilderness, Bedouin hearts are being prepared to receive the promise given to all nations.',
+    lat: 28,
+    lng: 35,
   },
   {
     id: 'loc-38',
@@ -539,6 +613,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Kurds are the world\'s largest stateless nation, with a population of 30-40 million spread across the Middle East. The region includes ancient Assyrian Christian communities that predate Islam. Recent conflicts have displaced millions of Kurds and created humanitarian crises, but also unprecedented openness in some areas, particularly in Iraqi Kurdistan where religious freedom is comparatively greater.',
     population: '~30 million unreached',
     callToAction: 'Among a people who have long fought for a homeland, the kingdom of God offers citizenship that no border can deny.',
+    lat: 37,
+    lng: 44,
   },
   {
     id: 'loc-39',
@@ -553,6 +629,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Tibetan Buddhism has shaped every aspect of Tibetan culture for over 1,300 years, and the Dalai Lama remains a unifying spiritual and political figure. Moravian missionaries established small stations in Ladakh and the Tibetan borderlands in the 1800s but made very few converts. Today, there are estimated to be only a few hundred Tibetan Christians among a population of over 6 million.',
     population: '~6 million unreached',
     callToAction: 'On the roof of the world, where the sky meets the earth, the Creator of the mountains is calling Tibetan hearts to discover His love.',
+    lat: 32,
+    lng: 90,
   },
   {
     id: 'loc-40',
@@ -567,6 +645,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Maldives was Buddhist before converting to Islam in 1153 AD. Since then, Islam has been the sole religion of the nation. No Christian church, fellowship, or missionary presence exists in the country. A tiny number of secret believers access Christian content through the internet, but they live in complete isolation from any believing community.',
     population: '~500,000 unreached',
     callToAction: 'Across 1,200 islands in the Indian Ocean, not a single church exists — the Maldives may be the least evangelized nation on Earth.',
+    lat: 4,
+    lng: 73,
   },
   {
     id: 'loc-41',
@@ -581,6 +661,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Arab traders brought Islam to the Comoros Islands by the 8th century, and it became the dominant faith. French colonization brought a small Christian presence, but it remained among foreign residents. Today, the Comorian church numbers only a few dozen believers, mostly meeting in secret. The Adventist Church has no established presence in the country.',
     population: '~900,000 unreached',
     callToAction: 'On these volcanic islands between Africa and Madagascar, the fire of the gospel has yet to find its footing — but God is at work.',
+    lat: -12,
+    lng: 44,
   },
   {
     id: 'loc-42',
@@ -595,6 +677,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Zanzibar was a major hub of the East African slave trade and later became a center of Arab-Omani commerce. Islam has been established here for over a thousand years. David Livingstone\'s anti-slavery campaign was based partly on Zanzibar, and the Anglican Cathedral stands on the former slave market. Despite this history, the Muslim Zanzibari population remains largely unreached.',
     population: '~1.5 million unreached',
     callToAction: 'Where slave ships once sailed and chains were broken, the ultimate freedom — freedom in Christ — still waits to be proclaimed.',
+    lat: -6,
+    lng: 39,
   },
   {
     id: 'loc-43',
@@ -609,6 +693,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Turkmen people were Islamized through Sufi missionaries centuries ago, blending Islamic practice with nomadic traditions. Soviet atheism suppressed all religion, and post-independence authoritarianism has maintained tight control. A small number of Turkmen Christians exist but worship under constant threat of arrest and harassment by security services.',
     population: '~6 million unreached',
     callToAction: 'Behind one of the world\'s most impenetrable borders, the Turkmen people live in spiritual isolation — but no wall can block the prayers of the faithful.',
+    lat: 40,
+    lng: 57,
   },
   {
     id: 'loc-44',
@@ -623,6 +709,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Tajikistan sits at the crossroads of Persian, Turkic, and Chinese civilizations. Zoroastrianism and Buddhism preceded Islam, which arrived through Arab conquest and Sufi missionaries. The Soviet era eliminated most religious practice, and the post-independence civil war further disrupted society. Small Christian communities exist in urban areas, but rural mountain villages remain entirely unreached.',
     population: '~9 million unreached',
     callToAction: 'In mountain villages accessible only by narrow paths, the message of hope must travel where roads cannot — carried by faith and prayer.',
+    lat: 38,
+    lng: 69,
   },
   {
     id: 'loc-45',
@@ -637,6 +725,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Pyongyang was once known as the "Jerusalem of the East," with a vibrant Christian community that produced many of Korea\'s early independence leaders. After the Korean War, the communist regime systematically eliminated all visible Christianity. An estimated 50,000-70,000 Christians are believed to be held in political prison camps. Underground believers risk everything to maintain their faith.',
     population: '~26 million unreached',
     callToAction: 'In the land once called the Jerusalem of the East, the light was driven underground — but it was never extinguished.',
+    lat: 40,
+    lng: 127,
   },
   {
     id: 'loc-46',
@@ -651,6 +741,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Mauritania has been Islamic since the 11th century when Almoravid Berber warriors spread their faith across the western Sahara. The country has almost no history of Christian presence among its Arab-Berber population. A tiny number of believers exist in complete secrecy, with no established church or fellowship of any kind.',
     population: '~4.5 million unreached',
     callToAction: 'In Mauritania, where the Sahara meets the Atlantic, a nation waits in spiritual darkness for the dawn of the everlasting gospel.',
+    lat: 18,
+    lng: -16,
   },
   {
     id: 'loc-47',
@@ -665,6 +757,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Sahrawi people have inhabited the Western Sahara for centuries, living as nomadic herders and traders. After Spanish withdrawal in 1975, Morocco claimed the territory, sparking a conflict that displaced over 100,000 Sahrawis to refugee camps in Algeria. Christianity has virtually no history among the Sahrawi, and there are no known established believers or churches.',
     population: '~600,000 unreached',
     callToAction: 'Among a people still waiting for a homeland, the promise of an eternal home in Christ speaks directly to the Sahrawi heart.',
+    lat: 24,
+    lng: -13,
   },
   {
     id: 'loc-48',
@@ -679,6 +773,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Francis Xavier brought Christianity to Japan in 1549, and it grew until brutal persecution drove it underground for over 200 years. When missionaries returned in the 1850s, they discovered hidden Christians who had preserved their faith in secret. Yet modern Japan remains one of the most resistant nations to the gospel, and Tokyo — the world\'s largest metropolitan area — has fewer Christians per capita than almost any other major city.',
     population: '~37 million in metro (99% unreached)',
     callToAction: 'In the world\'s largest city, where millions pass each other without connection, the God who knows every name is seeking every heart.',
+    lat: 35,
+    lng: 139,
   },
   {
     id: 'loc-49',
@@ -693,6 +789,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Istanbul was once Constantinople, capital of Eastern Christianity for over a thousand years and seat of the Ecumenical Patriarch. The seven churches of Revelation were all in modern Turkey. Today, Turkey\'s Christian population is less than 0.2%, and the historic churches of Asia Minor are empty ruins. A small but growing Turkish Protestant movement faces significant opposition.',
     population: '~82 million unreached',
     callToAction: 'In the land of the seven churches of Revelation, where Paul and the apostles walked, the final message must echo once more.',
+    lat: 41,
+    lng: 29,
   },
   {
     id: 'loc-50',
@@ -707,6 +805,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Egypt was one of the earliest strongholds of Christianity, home to the Desert Fathers and the Alexandrian theological school. The Coptic Church has survived 14 centuries of Islamic rule with remarkable resilience. However, the vast Muslim majority — including millions in Cairo\'s informal settlements — has had minimal exposure to biblical Christianity beyond cultural stereotypes.',
     population: '~90 million unreached',
     callToAction: 'In the land of the pharaohs and the exodus, where Moses once stood, the God of deliverance is still calling His people out.',
+    lat: 30,
+    lng: 31,
   },
   {
     id: 'loc-51',
@@ -721,6 +821,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Delhi has been the seat of empires for a thousand years — Hindu, Muslim, Sikh, and British. Christian missions established hospitals and schools during the colonial era, many of which still operate. Yet the city\'s explosive growth has far outpaced any Christian presence, and millions in Delhi\'s informal settlements have never encountered the gospel in a meaningful way.',
     population: '~30 million in metro (vast majority unreached)',
     callToAction: 'In the labyrinth of Old Delhi and the sprawl of New Delhi, every narrow lane is an invitation to carry the light where it has not yet shone.',
+    lat: 28,
+    lng: 77,
   },
   {
     id: 'loc-52',
@@ -735,6 +837,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Christian missionaries began reaching PNG\'s coast in the 1870s, and the interior highlands were contacted only in the mid-20th century. Remarkable gospel movements have transformed many tribes, but hundreds of small language groups in the most remote valleys remain unreached. The Adventist Church has significant membership in PNG but concentrates in accessible areas.',
     population: '~3 million unreached in highlands',
     callToAction: 'In valleys so remote they were unknown to the outside world until living memory, the Creator has always known every name.',
+    lat: -6,
+    lng: 144,
   },
   {
     id: 'loc-53',
@@ -749,6 +853,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Catholic missionaries entered the Amazon during the colonial era, often with devastating consequences for indigenous populations through disease and forced labor. Protestant missions in the 20th century, including SIL Bible translators, made significant inroads among some tribes. The Adventist Church operates river launches providing medical and educational services to remote communities along the Amazon and its tributaries.',
     population: '~1 million unreached indigenous',
     callToAction: 'In the world\'s greatest rainforest, where creation displays God\'s power in every leaf and creature, hidden peoples await His voice.',
+    lat: -5,
+    lng: -65,
   },
   {
     id: 'loc-54',
@@ -763,6 +869,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Andaman Islands are home to peoples who may have been isolated for up to 60,000 years. British colonization decimated many groups through disease and violence. The Sentinelese have violently rejected all outside contact, including a missionary who was killed attempting to reach them in 2018. The Great Andamanese and Onge peoples have been reduced to tiny remnant populations.',
     population: '~500 indigenous unreached',
     callToAction: 'On islands where the most isolated humans on Earth guard their solitude, the church must wrestle with how love reaches those who do not wish to be found.',
+    lat: 11,
+    lng: 92,
   },
   {
     id: 'loc-55',
@@ -777,6 +885,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Chechen people adopted Islam gradually from the 16th to 19th centuries, blending it with Sufi mysticism and pre-Islamic mountain traditions. Russian colonization triggered centuries of resistance, and the wars of the 1990s-2000s destroyed much of the country. Despite a small Russian Orthodox presence in neighboring areas, there is virtually no indigenous Christian witness among ethnic Chechens.',
     population: '~1.5 million unreached',
     callToAction: 'Among the Chechen people, shaped by suffering and resilience, the peace of Christ offers healing that reconstruction alone cannot bring.',
+    lat: 43,
+    lng: 45,
   },
   {
     id: 'loc-56',
@@ -791,6 +901,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'Dagestan — meaning "land of mountains" — has been Muslim since the Arab conquests of the 7th-8th centuries, making it one of the oldest Islamic regions in Russia. The region has experienced waves of religious radicalization and government crackdowns. Christian presence is limited to a few small Russian-speaking congregations in urban areas, with essentially no indigenous believers among Dagestan\'s many ethnic groups.',
     population: '~3 million unreached',
     callToAction: 'In the land of mountains and a hundred languages, the God who spoke at Pentecost in every tongue has a message for every people.',
+    lat: 42,
+    lng: 47,
   },
   {
     id: 'loc-57',
@@ -805,6 +917,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Brahmaputra valley has been a corridor of migration and cultural exchange for millennia, with Hindu, Buddhist, and Islamic influences layering over indigenous tribal practices. British-era tea plantations brought Christianity among tribal workers, but the vast Muslim population along the floodplains remains unreached. The shifting river islands host some of the most marginalized communities in South Asia.',
     population: '~20 million unreached',
     callToAction: 'On islands that shift with every monsoon, the unchanging love of God offers solid ground to those who have known only uncertainty.',
+    lat: 26,
+    lng: 91,
   },
   {
     id: 'loc-58',
@@ -819,6 +933,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Tuareg are a Berber people who have traversed the Sahara for over two thousand years as traders, guides, and warriors. They adopted Islam gradually but maintained many pre-Islamic customs, including a matrilineal social structure unusual in the Islamic world. A Tuareg rebellion in Mali in 2012 and the ongoing Sahel crisis have displaced many communities. There are virtually no known Tuareg Christians.',
     population: '~3 million unreached',
     callToAction: 'Across the vast Sahara, where Tuareg caravans have traveled for millennia, the greatest journey — to the heart of God — has yet to begin.',
+    lat: 17,
+    lng: 8,
   },
   {
     id: 'loc-59',
@@ -833,6 +949,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Caspian region of Azerbaijan was Zoroastrian before Islam arrived through Arab conquest. Known as the "Land of Fire" for its natural gas seeps, the region has been shaped by Persian, Turkish, Russian, and Soviet influences. Soviet-era atheism weakened religious practice, and post-independence nationalism blended secular and Islamic identity. A small but growing community of Azerbaijani believers exists, facing social pressure but not the extreme persecution seen in neighboring countries.',
     population: '~10 million unreached',
     callToAction: 'In the land of eternal flames, where fire once symbolized the divine, the true Light of the world is beginning to shine.',
+    lat: 41,
+    lng: 50,
   },
   {
     id: 'loc-60',
@@ -847,6 +965,8 @@ export const MISSION_LOCATIONS: MissionLocation[] = [
     history: 'The Minangkabau of West Sumatra are the world\'s largest matrilineal society and are known across Indonesia for their intellectual and entrepreneurial spirit. Islam spread among them through Sufi teachers in the 16th century and was solidified through the Padri War of the early 1800s. Despite being surrounded by significant Christian populations in neighboring Batak lands, the Minangkabau remain one of the largest unreached Muslim people groups in Southeast Asia.',
     population: '~8 million unreached',
     callToAction: 'Among a people known for their wisdom and wandering spirit, the God who calls all peoples to Himself has a place prepared for the Minangkabau.',
+    lat: -0.5,
+    lng: 100,
   },
 ];
 

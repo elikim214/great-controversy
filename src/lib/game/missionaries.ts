@@ -65,18 +65,17 @@ const AVATAR_SYMBOLS = [
 ];
 
 /**
- * Returns the avatar image URL for the given index (0-29).
- * Use with an onError fallback to the SVG emblem system.
- */
-export function getAvatarImageUrl(index: number): string {
-  const padded = String(index + 1).padStart(2, '0');
-  return `/avatars/avatar-${padded}.png`;
-}
-
-/**
  * Returns an SVG data URL emblem avatar for the given index.
  * Each player gets a unique symbol (Compass, Shield, Flame, Star, etc.) with a colored palette.
  */
+/**
+ * Returns the URL for a custom avatar PNG image (avatar-01.png through avatar-27.png).
+ */
+export function getAvatarImageUrl(index: number): string {
+  const num = ((index % 27) + 1).toString().padStart(2, '0');
+  return `/avatars/avatar-${num}.png`;
+}
+
 export function getMissionaryAvatarUrl(seed: string, index?: number): string {
   const idx = index !== undefined ? index : Math.abs(hashCode(seed)) % AVATAR_SYMBOLS.length;
   const palette = AVATAR_PALETTES[idx % AVATAR_PALETTES.length];

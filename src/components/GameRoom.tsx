@@ -4,6 +4,7 @@ import { useState, useEffect } from 'react';
 import { useGame } from '@/context/GameContext';
 import { GamePhase } from '@/lib/game/types';
 import MissionTracker from './MissionTracker';
+import MissionMap from './MissionMap';
 import PlayerList from './PlayerList';
 import RoleCard from './RoleCard';
 import RoleRevealCard from './RoleRevealCard';
@@ -128,6 +129,7 @@ export default function GameRoom() {
   const [sabbathActive, setSabbathActive] = useState(false);
   const [sabbathInfo, setSabbathInfo] = useState<string | undefined>();
   const [soundOn, setSoundOn] = useState(getSoundEnabled);
+  const [sabotageAnimActive, setSabotageAnimActive] = useState(false);
 
   // Check Sabbath on mount using geolocation
   useEffect(() => {
@@ -275,6 +277,16 @@ export default function GameRoom() {
     }, 1000);
     return () => clearInterval(interval);
   }, [roomState?.phase, roomState?.currentMissionIndex]);
+
+  // Sabotage animation trigger
+  useEffect(() => {
+    const mission = roomState?.missions?.[roomState?.currentMissionIndex ?? 0];
+    if (missionRevealDone && mission?.result === 'failure' && !sabotageAnimActive) {
+      setSabotageAnimActive(true);
+      const timeout = setTimeout(() => setSabotageAnimActive(false), 2500);
+      return () => clearTimeout(timeout);
+    }
+  }, [missionRevealDone, roomState?.missions, roomState?.currentMissionIndex]);
 
   if (!roomState || !session) {
     return (
@@ -458,6 +470,16 @@ export default function GameRoom() {
               Rejected proposals: {roomState.consecutiveRejections}/5
             </p>
           )}
+        </div>
+      )}
+
+      {/* Mission Map */}
+      {currentMission && roomState.phase !== GamePhase.Lobby && roomState.phase !== GamePhase.RoleReveal && roomState.phase !== GamePhase.FirstNight && roomState.phase !== GamePhase.GameOver && roomState.phase !== GamePhase.MissionReveal && (
+        <div className="mb-4 animate-fade-in-up delay-200">
+          <MissionMap
+            missions={roomState.missions}
+            currentIndex={roomState.currentMissionIndex}
+          />
         </div>
       )}
 
@@ -758,6 +780,45 @@ export default function GameRoom() {
               <p className="text-xs text-muted mb-1">
                 Team size: {currentMission.requiredTeamSize} players
               </p>
+              {/* Squad lineup */}
+              <div className="flex items-center justify-center gap-2 flex-wrap my-3 min-h-[56px]">
+                {Array.from({ length: currentMission.requiredTeamSize }).map((_, i) => {
+                  const selectedPlayer = selectedTeam[i] ? roomState.players.find(p => p.id === selectedTeam[i]) : null;
+                  return (
+                    <div
+                      key={i}
+                      className={`flex flex-col items-center ${selectedPlayer ? 'squad-avatar-enter' : ''}`}
+                      style={selectedPlayer ? { animationDelay: `${i * 50}ms` } : undefined}
+                    >
+                      {selectedPlayer ? (
+                        <>
+                          <div
+                            className="rounded-full border-2 border-blue overflow-hidden"
+                            style={{ width: 44, height: 44 }}
+                          >
+                            <img
+                              src={`/avatars/avatar-${String(selectedPlayer.avatarIndex + 1).padStart(2, '0')}.png`}
+                              alt={selectedPlayer.displayName}
+                              className="w-full h-full object-cover"
+                              style={{ background: 'var(--card-bg)' }}
+                            />
+                          </div>
+                          <span className="text-[9px] text-muted mt-0.5 max-w-[50px] truncate text-center">
+                            {selectedPlayer.displayName}
+                          </span>
+                        </>
+                      ) : (
+                        <div
+                          className="rounded-full border-2 border-dashed border-card-border flex items-center justify-center"
+                          style={{ width: 44, height: 44 }}
+                        >
+                          <span className="text-muted text-xs">{i + 1}</span>
+                        </div>
+                      )}
+                    </div>
+                  );
+                })}
+              </div>
               <div className={`text-xs mb-3 px-3 py-2 rounded-lg ${
                 currentMission.requiresTwoFails
                   ? 'bg-gold/10 border border-gold/20 text-gold'
@@ -835,7 +896,30 @@ export default function GameRoom() {
 
         {/* MISSION REVEAL */}
         {roomState.phase === GamePhase.MissionReveal && currentMission && (
-          <div className="space-y-4 animate-fade-in">
+          <div className={`space-y-4 animate-fade-in ${sabotageAnimActive ? 'sabotage-shake' : ''}`}>
+            {/* Sabotage animation overlay */}
+            {sabotageAnimActive && (
+              <div
+                className="fixed inset-0 z-[60] flex items-center justify-center pointer-events-none sabotage-overlay"
+                style={{ background: 'rgba(217, 79, 79, 0.1)' }}
+              >
+                <div className="text-center sabotage-text">
+                  <p
+                    className="font-serif font-bold text-danger sabotage-glitch"
+                    style={{
+                      fontSize: 'clamp(1.5rem, 6vw, 2.5rem)',
+                      textShadow: '0 0 20px rgba(217,79,79,0.8), 0 0 40px rgba(217,79,79,0.4)',
+                      letterSpacing: '0.05em',
+                    }}
+                  >
+                    SABOTAGE DETECTED
+                  </p>
+                  <p className="text-danger/60 text-sm mt-2 animate-fade-in delay-500">
+                    The mission has been compromised
+                  </p>
+                </div>
+              </div>
+            )}
             {/* Staggered card reveal */}
             <div className="game-card text-center">
               <h3 className="font-serif text-xl font-bold mb-4 text-gold">

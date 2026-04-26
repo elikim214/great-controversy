@@ -89,6 +89,8 @@ export interface MissionLocation {
   history: string;         // 2-3 sentences of pertinent historical context
   population: string;      // approximate population of unreached in area
   callToAction: string;    // 1 inspirational sentence about why this place matters
+  lat: number;             // approximate latitude for map positioning
+  lng: number;             // approximate longitude for map positioning
 }
 
 /** A team proposal for a mission */
