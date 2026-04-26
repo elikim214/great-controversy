@@ -114,6 +114,14 @@ export default function PlayerList({
                         Leader
                       </span>
                     )}
+                    {p.isBot && (
+                      <span
+                        className="text-[8px] font-bold uppercase tracking-wider px-1 py-0.5 rounded"
+                        style={{ background: 'rgba(212,168,67,0.15)', color: 'var(--accent-gold)' }}
+                      >
+                        BOT
+                      </span>
+                    )}
                     {p.isHost && <span className="text-gold text-sm" title="Host">&#9733;</span>}
                     {!p.connected && (
                       <span className="text-[10px] font-bold uppercase tracking-wider px-1.5 py-0.5 rounded" style={{ background: 'rgba(217,79,79,0.15)', color: 'var(--danger)' }}>

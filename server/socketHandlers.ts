@@ -53,6 +53,15 @@ import {
   validateEvangelistConvert,
   validateAssassinGuess,
 } from '../src/lib/game/validators';
+import { MAX_BOTS, MAX_PLAYERS } from '../src/lib/game/config';
+import {
+  addBot,
+  removeBot,
+  getBotIds,
+  initializeBotStates,
+  processBotActions,
+  cleanupRoom,
+} from './botManager';
 
 // In-memory room storage (fine for MVP/local game night)
 const rooms = new Map<string, Room>();
@@ -243,6 +252,49 @@ export function registerSocketHandlers(
       broadcastRoomState(io, room);
     });
 
+    // ---- Add Bot ----
+    socket.on('room:addBot', (data, callback) => {
+      const room = getRoomForSocket(socket.id);
+      if (!room) {
+        callback({ success: false, error: 'Room not found' });
+        return;
+      }
+      const requester = room.players.find(p => p.socketId === socket.id);
+      if (!requester?.isHost) {
+        callback({ success: false, error: 'Only host can add bots' });
+        return;
+      }
+      if (room.phase !== GamePhase.Lobby) {
+        callback({ success: false, error: 'Can only add bots in lobby' });
+        return;
+      }
+      const currentBots = getBotIds(room).length;
+      if (currentBots >= MAX_BOTS) {
+        callback({ success: false, error: 'Maximum bots reached' });
+        return;
+      }
+      if (room.players.length >= MAX_PLAYERS) {
+        callback({ success: false, error: 'Room is full' });
+        return;
+      }
+
+      const botId = addBot(room, data.name);
+      callback({ success: true, botId });
+      broadcastRoomState(io, room);
+    });
+
+    // ---- Remove Bot ----
+    socket.on('room:removeBot', (data) => {
+      const room = getRoomForSocket(socket.id);
+      if (!room) return;
+      const requester = room.players.find(p => p.socketId === socket.id);
+      if (!requester?.isHost) return;
+      if (room.phase !== GamePhase.Lobby) return;
+
+      removeBot(room, data.botId);
+      broadcastRoomState(io, room);
+    });
+
     // ---- Start Game ----
     socket.on('game:start', () => {
       const room = getRoomForSocket(socket.id);
@@ -257,12 +309,21 @@ export function registerSocketHandlers(
       }
 
       startGame(room);
+
+      // Initialize bot states after roles are assigned
+      initializeBotStates(room);
+
       broadcastRoomState(io, room);
 
-      // Send private role info to each player
+      // Send private role info to each player (skip bots)
       for (const player of room.players) {
-        sendPrivateInfo(io, room, player);
+        if (!player.isBot) {
+          sendPrivateInfo(io, room, player);
+        }
       }
+
+      // Trigger bot actions
+      triggerBots(io, room);
     });
 
     // ---- Advance First Night ----
@@ -276,6 +337,7 @@ export function registerSocketHandlers(
 
       advanceFirstNight(room);
       broadcastRoomState(io, room);
+      triggerBots(io, room);
 
       // Send phase messages
       const messages = getFirstNightMessage(room.firstNightStep);
@@ -294,9 +356,11 @@ export function registerSocketHandlers(
       if (room.phase === GamePhase.MissionReveal) {
         afterMissionReveal(room);
         broadcastRoomState(io, room);
+        triggerBots(io, room);
       } else if (room.phase === GamePhase.EvangelistAction) {
         skipEvangelistAction(room);
         broadcastRoomState(io, room);
+        triggerBots(io, room);
       }
     });
 
@@ -315,6 +379,7 @@ export function registerSocketHandlers(
 
       proposeTeam(room, data.memberIds);
       broadcastRoomState(io, room);
+      triggerBots(io, room);
     });
 
     // ---- Submit Vote ----
@@ -335,6 +400,7 @@ export function registerSocketHandlers(
       // Try to resolve
       const resolved = resolveVote(room);
       broadcastRoomState(io, room);
+      triggerBots(io, room);
     });
 
     // ---- Submit Mission Action ----
@@ -355,6 +421,7 @@ export function registerSocketHandlers(
       // Try to resolve
       const resolved = resolveMission(room);
       broadcastRoomState(io, room);
+      triggerBots(io, room);
     });
 
     // ---- Evangelist Convert / Inspect ----
@@ -449,6 +516,7 @@ export function registerSocketHandlers(
 
       // Broadcast room state to all (so the game phase advances)
       broadcastRoomState(io, room);
+      triggerBots(io, room);
     });
 
     // ---- Assassin Guess ----
@@ -478,6 +546,7 @@ export function registerSocketHandlers(
       });
 
       broadcastRoomState(io, room);
+      triggerBots(io, room);
     });
 
     // ---- Restart / Return to Lobby ----
@@ -611,6 +680,17 @@ export function registerSocketHandlers(
 
 // ---- Helper Functions ----
 
+/** Trigger bot AI processing after a state change */
+function triggerBots(
+  io: SocketIOServer<ClientToServerEvents, ServerToClientEvents>,
+  room: Room
+): void {
+  // Small delay to let the broadcast finish first
+  setTimeout(() => {
+    processBotActions(room, io, broadcastRoomState, sendPrivateInfo);
+  }, 300);
+}
+
 function getRoomForSocket(socketId: string): Room | undefined {
   const code = socketToRoom.get(socketId);
   return code ? rooms.get(code) : undefined;
@@ -640,6 +720,7 @@ function sanitizeRoomState(room: Room): ClientRoomState {
       connected: p.connected,
       disconnectedAt: p.disconnectedAt,
       missionaryIndex: p.missionaryIndex,
+      ...(p.isBot ? { isBot: true } : {}),
       ...(room.phase === GamePhase.GameOver && p.role ? { revealedRole: p.role } : {}),
       ...(room.phase === GamePhase.GameOver && p.alignment ? { revealedAlignment: p.alignment } : {}),
     })),

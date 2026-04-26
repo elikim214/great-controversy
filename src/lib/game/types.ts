@@ -72,6 +72,7 @@ export interface Player {
   connected: boolean;
   disconnectedAt?: number;  // timestamp when disconnected, undefined if connected
   missionaryIndex: number;
+  isBot?: boolean;
 }
 
 /** A mission destination */
@@ -204,6 +205,8 @@ export interface ClientToServerEvents {
   'game:assassinGuess': (data: { targetId: string }) => void;
   'game:restart': () => void;
   'game:returnToLobby': () => void;
+  'room:addBot': (data: { name?: string }, callback: (res: { success: boolean; botId?: string; error?: string }) => void) => void;
+  'room:removeBot': (data: { botId: string }) => void;
   'chat:send': (data: { text: string }) => void;
   'chat:accuse': (data: { targetId: string; reason: string }) => void;
 }
@@ -247,6 +250,7 @@ export interface ClientPlayer {
   connected: boolean;
   disconnectedAt?: number;
   missionaryIndex: number;
+  isBot?: boolean;
   revealedRole?: string;
   revealedAlignment?: string;
 }

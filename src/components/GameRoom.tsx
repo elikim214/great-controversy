@@ -108,6 +108,7 @@ export default function GameRoom() {
     roomState, privateInfo, session, error, clearError,
     phaseMessage, clearPhaseMessage, conversionResult, clearConversionResult,
     assassinResult, babylonAlert, clearBabylonAlert, angelAlert, clearAngelAlert,
+    addBot, removeBot,
     kickPlayer, updateConfig, startGame, advanceFirstNight, advancePhase,
     proposeTeam, submitVote, submitMissionAction,
     evangelistConvert, assassinGuess, restartGame, returnToLobby,
@@ -515,7 +516,42 @@ export default function GameRoom() {
                 onKick={isHost ? kickPlayer : undefined}
                 isActiveGame={false}
               />
+
+              {/* Bot badges */}
+              {roomState.players.some(p => p.isBot) && (
+                <div className="mt-2 flex flex-wrap gap-1.5">
+                  {roomState.players.filter(p => p.isBot).map(p => (
+                    <span
+                      key={p.id}
+                      className="inline-flex items-center gap-1 text-[10px] font-bold uppercase tracking-wider px-2 py-0.5 rounded"
+                      style={{ background: 'rgba(212,168,67,0.12)', color: 'var(--accent-gold)' }}
+                    >
+                      BOT {p.displayName}
+                      {isHost && (
+                        <button
+                          onClick={() => removeBot(p.id)}
+                          className="ml-1 text-danger hover:text-danger/80"
+                          title="Remove bot"
+                        >
+                          &times;
+                        </button>
+                      )}
+                    </span>
+                  ))}
+                </div>
+              )}
             </div>
+
+            {/* Add Bot Button */}
+            {isHost && (
+              <button
+                onClick={() => addBot()}
+                disabled={roomState.players.length >= 15}
+                className="btn w-full text-sm py-2 border border-gold/30 text-gold hover:bg-gold/10 transition-colors rounded-lg disabled:opacity-40 disabled:cursor-not-allowed"
+              >
+                + Add Bot Player
+              </button>
+            )}
 
             {isHost && (
               <div className="game-card space-y-3 delay-200">

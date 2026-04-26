@@ -4,7 +4,10 @@
 // ============================================================
 
 /** App version — update this with every push */
-export const APP_VERSION = '2.7.0';
+export const APP_VERSION = '3.0.0';
+
+/** Maximum bots per game (leaves room for at least 1 human) */
+export const MAX_BOTS = 14;
 
 /** Free tier player limit — 7+ requires subscription */
 export const FREE_PLAYER_LIMIT = 6;

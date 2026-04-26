@@ -58,6 +58,8 @@ interface GameContextType {
   createRoom: (displayName: string) => Promise<{ roomCode: string; playerId: string } | null>;
   joinRoom: (roomCode: string, displayName: string) => Promise<{ playerId: string } | null>;
   rejoinRoom: () => Promise<boolean>;
+  addBot: (name?: string) => Promise<{ botId: string } | null>;
+  removeBot: (botId: string) => void;
   kickPlayer: (targetPlayerId: string) => void;
   updateConfig: (config: Partial<GameConfig>) => void;
   startGame: () => void;
@@ -228,6 +230,22 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
+  const addBot = useCallback(async (name?: string) => {
+    return new Promise<{ botId: string } | null>((resolve) => {
+      socketRef.current!.emit('room:addBot', { name }, (res) => {
+        if (res.success && res.botId) {
+          resolve({ botId: res.botId });
+        } else {
+          resolve(null);
+        }
+      });
+    });
+  }, []);
+
+  const removeBot = useCallback((botId: string) => {
+    socketRef.current!.emit('room:removeBot', { botId });
+  }, []);
+
   const kickPlayer = useCallback((targetPlayerId: string) => {
     socketRef.current!.emit('room:kick', { targetPlayerId });
   }, []);
@@ -328,6 +346,8 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
         createRoom,
         joinRoom,
         rejoinRoom,
+        addBot,
+        removeBot,
         kickPlayer,
         updateConfig,
         startGame,
