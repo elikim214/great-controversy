@@ -148,11 +148,15 @@ export default function MissionActionPanel({ mission, privateInfo, myId, onSubmi
       </div>
       <p className="text-[9px] text-muted text-center mt-1">{isBabylon ? 'Keys: S = Support \u00B7 X = Sabotage' : 'Key: S = Support'}</p>
 
-      {mission.requiresTwoFails && (
-        <p className="text-xs text-blue text-center mt-3 animate-fade-in delay-900">
-          This mission requires 2 sabotages to fail
-        </p>
-      )}
+      <div className={`text-xs text-center mt-3 px-3 py-2 rounded-lg animate-fade-in delay-900 ${
+        mission.requiresTwoFails
+          ? 'bg-gold/10 border border-gold/20 text-gold font-bold'
+          : 'bg-card border border-card-border text-muted'
+      }`}>
+        {mission.requiresTwoFails
+          ? 'This mission requires 2 sabotage cards to fail'
+          : '1 sabotage card will fail this mission'}
+      </div>
     </div>
   );
 }

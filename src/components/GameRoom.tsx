@@ -710,9 +710,20 @@ export default function GameRoom() {
                   </span>
                 )}
               </h3>
-              <p className="text-xs text-muted mb-3">
+              <p className="text-xs text-muted mb-1">
                 Team size: {currentMission.requiredTeamSize} players
               </p>
+              <div className={`text-xs mb-3 px-3 py-2 rounded-lg ${
+                currentMission.requiresTwoFails
+                  ? 'bg-gold/10 border border-gold/20 text-gold'
+                  : 'bg-card border border-card-border text-muted'
+              }`}>
+                {currentMission.requiresTwoFails ? (
+                  <span className="font-bold">This mission requires 2 sabotage cards to fail.</span>
+                ) : (
+                  <span>1 sabotage card will fail this mission.</span>
+                )}
+              </div>
               <PlayerList
                 players={roomState.players}
                 currentPlayerId={myId}

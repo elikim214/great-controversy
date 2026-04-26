@@ -59,8 +59,8 @@ export default function MissionTracker({ missions, currentIndex, hideCurrentResu
                   <span className="text-xs font-bold">{m.requiredTeamSize}</span>
                 )}
               </div>
-              <span className="text-[0.6rem] text-muted mt-1">
-                {m.requiresTwoFails ? '2F' : `M${m.missionNumber}`}
+              <span className={`text-[0.6rem] mt-1 ${m.requiresTwoFails ? 'text-gold font-bold' : 'text-muted'}`}>
+                {m.requiresTwoFails ? '2 fails' : `M${m.missionNumber}`}
               </span>
             </div>
           </div>
