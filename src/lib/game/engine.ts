@@ -22,7 +22,7 @@ import { generateMissionStory } from './missionStories';
 
 /** Generate a random room code */
 export function generateRoomCode(): string {
-  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ23456789'; // no ambiguous chars
+  const chars = 'ABCDEFGHJKLMNPQRSTUVWXYZ'; // letters only, no ambiguous chars
   let code = '';
   for (let i = 0; i < ROOM_CODE_LENGTH; i++) {
     code += chars.charAt(Math.floor(Math.random() * chars.length));
