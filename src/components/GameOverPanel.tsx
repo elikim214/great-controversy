@@ -74,9 +74,14 @@ export default function GameOverPanel({ result, players, isHost, onRestart, onRe
                     }}
                   >
                     <span className="text-sm font-medium text-foreground/90">{p.displayName}</span>
-                    <span className={`text-xs font-semibold ${isBabylon ? 'text-danger' : 'text-blue'}`}>
-                      {p.revealedRole} <span className="text-muted font-normal">({p.revealedAlignment})</span>
-                    </span>
+                    <div className="text-right">
+                      <span className={`text-xs font-semibold ${isBabylon ? 'text-danger' : 'text-blue'}`}>
+                        {p.revealedRole} <span className="text-muted font-normal">({p.revealedAlignment})</span>
+                      </span>
+                      {p.wasConverted && (
+                        <p className="text-[10px] text-gold italic">Converted by the Evangelist&apos;s testimony</p>
+                      )}
+                    </div>
                   </div>
                 );
               })}

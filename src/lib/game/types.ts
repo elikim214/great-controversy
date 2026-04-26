@@ -258,6 +258,8 @@ export interface ClientPlayer {
   isBot?: boolean;
   revealedRole?: string;
   revealedAlignment?: string;
+  wasConverted?: boolean;
+  originalRole?: string;
 }
 
 /** Mission info visible to all clients */

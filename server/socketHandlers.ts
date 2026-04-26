@@ -760,6 +760,10 @@ function sanitizeRoomState(room: Room): ClientRoomState {
       ...(p.isBot ? { isBot: true } : {}),
       ...(room.phase === GamePhase.GameOver && p.role ? { revealedRole: p.role } : {}),
       ...(room.phase === GamePhase.GameOver && p.alignment ? { revealedAlignment: p.alignment } : {}),
+      ...(room.phase === GamePhase.GameOver && room.evangelistConversions?.some(c => c.targetId === p.id && c.success) ? {
+        wasConverted: true,
+        originalRole: 'Babylon Agent',
+      } : {}),
     })),
     phase: room.phase,
     config: room.config,
