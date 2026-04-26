@@ -136,7 +136,7 @@ export default function SecondComingVictory() {
             color: '#fef3c7',
             textShadow: '0 0 40px rgba(212,168,67,0.6), 0 0 80px rgba(212,168,67,0.3)',
           }}>
-          He Is Coming!
+          Jesus Is Coming!
         </h1>
         <p className="font-serif italic text-lg md:text-xl text-center max-w-lg mb-3"
           style={{ color: 'rgba(255,248,220,0.8)' }}>
