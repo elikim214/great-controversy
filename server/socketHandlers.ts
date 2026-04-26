@@ -335,11 +335,20 @@ export function registerSocketHandlers(
 
     // ---- Confirm Ready (role reveal) ----
     socket.on('game:confirmReady', () => {
-      const room = getRoomForSocket(socket.id);
-      if (!room) return;
+      // Try normal lookup first, then fall back to scanning all rooms
+      let room = getRoomForSocket(socket.id);
+      let requester = room?.players.find(p => p.socketId === socket.id);
+
+      if (!room || !requester) {
+        // Fallback: scan all rooms for this socket
+        for (const [, r] of rooms) {
+          const p = r.players.find(p => p.socketId === socket.id);
+          if (p) { room = r; requester = p; break; }
+        }
+      }
+
+      if (!room || !requester) return;
       if (room.phase !== GamePhase.RoleReveal) return;
-      const requester = room.players.find(p => p.socketId === socket.id);
-      if (!requester) return;
       if (!room.readyPlayerIds.includes(requester.id)) {
         room.readyPlayerIds.push(requester.id);
       }
