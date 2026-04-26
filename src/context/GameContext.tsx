@@ -55,8 +55,8 @@ interface GameContextType {
   sendAccusation: (targetId: string, reason: string) => void;
 
   // Actions
-  createRoom: (displayName: string) => Promise<{ roomCode: string; playerId: string } | null>;
-  joinRoom: (roomCode: string, displayName: string) => Promise<{ playerId: string } | null>;
+  createRoom: (displayName: string, avatarIndex?: number) => Promise<{ roomCode: string; playerId: string } | null>;
+  joinRoom: (roomCode: string, displayName: string, avatarIndex?: number) => Promise<{ playerId: string } | null>;
   rejoinRoom: () => Promise<boolean>;
   addBot: (name?: string) => Promise<{ botId: string } | null>;
   removeBot: (botId: string) => void;
@@ -167,10 +167,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     };
   }, []);
 
-  const createRoom = useCallback(async (displayName: string) => {
+  const createRoom = useCallback(async (displayName: string, avatarIndex?: number) => {
     const socket = socketRef.current!;
     return new Promise<{ roomCode: string; playerId: string } | null>((resolve) => {
-      socket.emit('room:create', { displayName }, (res) => {
+      socket.emit('room:create', { displayName, avatarIndex }, (res) => {
         if (res.success && res.roomCode && res.playerId) {
           const sess: LocalSession = {
             roomCode: res.roomCode,
@@ -189,10 +189,10 @@ export function GameProvider({ children }: { children: React.ReactNode }) {
     });
   }, []);
 
-  const joinRoom = useCallback(async (roomCode: string, displayName: string) => {
+  const joinRoom = useCallback(async (roomCode: string, displayName: string, avatarIndex?: number) => {
     const socket = socketRef.current!;
     return new Promise<{ playerId: string } | null>((resolve) => {
-      socket.emit('room:join', { roomCode: roomCode.toUpperCase(), displayName }, (res) => {
+      socket.emit('room:join', { roomCode: roomCode.toUpperCase(), displayName, avatarIndex }, (res) => {
         if (res.success && res.playerId) {
           const sess: LocalSession = {
             roomCode: roomCode.toUpperCase(),

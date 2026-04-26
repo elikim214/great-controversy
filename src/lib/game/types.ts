@@ -71,7 +71,7 @@ export interface Player {
   alignment?: Alignment;
   connected: boolean;
   disconnectedAt?: number;  // timestamp when disconnected, undefined if connected
-  missionaryIndex: number;
+  avatarIndex: number;
   isBot?: boolean;
 }
 
@@ -189,9 +189,9 @@ export interface LocalSession {
 
 /** Events the client sends to the server */
 export interface ClientToServerEvents {
-  'room:create': (data: { displayName: string }, callback: (res: { success: boolean; roomCode?: string; playerId?: string; error?: string }) => void) => void;
+  'room:create': (data: { displayName: string; avatarIndex?: number }, callback: (res: { success: boolean; roomCode?: string; playerId?: string; error?: string }) => void) => void;
   'room:spectate': (data: { roomCode: string }, callback: (res: { success: boolean; error?: string }) => void) => void;
-  'room:join': (data: { roomCode: string; displayName: string }, callback: (res: { success: boolean; playerId?: string; error?: string }) => void) => void;
+  'room:join': (data: { roomCode: string; displayName: string; avatarIndex?: number }, callback: (res: { success: boolean; playerId?: string; error?: string }) => void) => void;
   'room:rejoin': (data: { roomCode: string; playerId: string }, callback: (res: { success: boolean; error?: string }) => void) => void;
   'room:kick': (data: { targetPlayerId: string }) => void;
   'room:updateConfig': (data: Partial<GameConfig>) => void;
@@ -249,7 +249,7 @@ export interface ClientPlayer {
   isHost: boolean;
   connected: boolean;
   disconnectedAt?: number;
-  missionaryIndex: number;
+  avatarIndex: number;
   isBot?: boolean;
   revealedRole?: string;
   revealedAlignment?: string;

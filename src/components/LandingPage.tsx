@@ -1,11 +1,12 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useCallback } from 'react';
 import { useGame } from '@/context/GameContext';
 import { useRouter } from 'next/navigation';
 import { APP_VERSION } from '@/lib/game/config';
 import { AuroraBackground } from '@/components/ui/aurora-background';
 import { checkSabbathWithLocation } from '@/lib/game/sabbath';
+import { getAvatarImageUrl, getMissionaryAvatarUrl, pickMissionary } from '@/lib/game/missionaries';
 
 export default function LandingPage() {
   const [sabbathActive, setSabbathActive] = useState(false);
@@ -23,12 +24,13 @@ export default function LandingPage() {
   const [displayName, setDisplayName] = useState('');
   const [roomCode, setRoomCode] = useState('');
   const [loading, setLoading] = useState(false);
+  const [selectedAvatar, setSelectedAvatar] = useState<number>(() => Math.floor(Math.random() * 30));
 
   const handleCreate = async () => {
     if (!displayName.trim()) return;
     setLoading(true);
     clearError();
-    const result = await createRoom(displayName.trim());
+    const result = await createRoom(displayName.trim(), selectedAvatar);
     setLoading(false);
     if (result) {
       router.push(`/room/${result.roomCode}`);
@@ -39,7 +41,7 @@ export default function LandingPage() {
     if (!displayName.trim() || !roomCode.trim()) return;
     setLoading(true);
     clearError();
-    const result = await joinRoom(roomCode.trim(), displayName.trim());
+    const result = await joinRoom(roomCode.trim(), displayName.trim(), selectedAvatar);
     setLoading(false);
     if (result) {
       router.push(`/room/${roomCode.trim().toUpperCase()}`);
@@ -146,6 +148,38 @@ export default function LandingPage() {
               autoFocus
               onKeyDown={e => e.key === 'Enter' && handleCreate()}
             />
+            <div>
+              <p className="text-xs text-muted mb-2 text-center">Choose your avatar</p>
+              <div className="grid grid-cols-6 gap-2 max-h-[180px] overflow-y-auto p-1">
+                {Array.from({ length: 30 }, (_, i) => {
+                  const m = pickMissionary(i);
+                  const fallback = getMissionaryAvatarUrl(m.avatarSeed, i);
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setSelectedAvatar(i)}
+                      className="relative rounded-full aspect-square transition-all"
+                      style={{
+                        outline: selectedAvatar === i ? '2.5px solid var(--accent-gold)' : '2px solid transparent',
+                        outlineOffset: '1px',
+                        opacity: 1,
+                      }}
+                    >
+                      <img
+                        src={getAvatarImageUrl(i)}
+                        alt={`Avatar ${i + 1}`}
+                        className="w-full h-full rounded-full object-cover"
+                        style={{ background: 'var(--card-bg)' }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = fallback;
+                        }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
             <button
               onClick={handleCreate}
               disabled={!displayName.trim() || loading || !connected}
@@ -180,6 +214,38 @@ export default function LandingPage() {
               maxLength={20}
               onKeyDown={e => e.key === 'Enter' && handleJoin()}
             />
+            <div>
+              <p className="text-xs text-muted mb-2 text-center">Choose your avatar</p>
+              <div className="grid grid-cols-6 gap-2 max-h-[180px] overflow-y-auto p-1">
+                {Array.from({ length: 30 }, (_, i) => {
+                  const m = pickMissionary(i);
+                  const fallback = getMissionaryAvatarUrl(m.avatarSeed, i);
+                  return (
+                    <button
+                      key={i}
+                      type="button"
+                      onClick={() => setSelectedAvatar(i)}
+                      className="relative rounded-full aspect-square transition-all"
+                      style={{
+                        outline: selectedAvatar === i ? '2.5px solid var(--accent-gold)' : '2px solid transparent',
+                        outlineOffset: '1px',
+                        opacity: 1,
+                      }}
+                    >
+                      <img
+                        src={getAvatarImageUrl(i)}
+                        alt={`Avatar ${i + 1}`}
+                        className="w-full h-full rounded-full object-cover"
+                        style={{ background: 'var(--card-bg)' }}
+                        onError={(e) => {
+                          (e.target as HTMLImageElement).src = fallback;
+                        }}
+                      />
+                    </button>
+                  );
+                })}
+              </div>
+            </div>
             <button
               onClick={handleJoin}
               disabled={!displayName.trim() || !roomCode.trim() || loading || !connected}

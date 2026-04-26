@@ -86,13 +86,13 @@ export function registerSocketHandlers(
 
     // ---- Room Creation ----
     socket.on('room:create', (data, callback) => {
-      const { displayName } = data;
+      const { displayName, avatarIndex } = data;
       if (!displayName?.trim()) {
         callback({ success: false, error: 'Display name required' });
         return;
       }
 
-      const { room, hostId } = createRoom(displayName.trim(), socket.id);
+      const { room, hostId } = createRoom(displayName.trim(), socket.id, avatarIndex);
 
       // Ensure unique code
       let attempts = 0;
@@ -111,7 +111,7 @@ export function registerSocketHandlers(
 
     // ---- Room Join ----
     socket.on('room:join', (data, callback) => {
-      const { roomCode, displayName } = data;
+      const { roomCode, displayName, avatarIndex } = data;
       const room = rooms.get(roomCode?.toUpperCase());
 
       if (!room) {
@@ -125,7 +125,7 @@ export function registerSocketHandlers(
         return;
       }
 
-      const { playerId } = addPlayer(room, displayName.trim(), socket.id);
+      const { playerId } = addPlayer(room, displayName.trim(), socket.id, avatarIndex);
       socketToRoom.set(socket.id, room.code);
       socket.join(room.code);
 
@@ -719,7 +719,7 @@ function sanitizeRoomState(room: Room): ClientRoomState {
       isHost: p.isHost,
       connected: p.connected,
       disconnectedAt: p.disconnectedAt,
-      missionaryIndex: p.missionaryIndex,
+      avatarIndex: p.avatarIndex,
       ...(p.isBot ? { isBot: true } : {}),
       ...(room.phase === GamePhase.GameOver && p.role ? { revealedRole: p.role } : {}),
       ...(room.phase === GamePhase.GameOver && p.alignment ? { revealedAlignment: p.alignment } : {}),

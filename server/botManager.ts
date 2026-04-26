@@ -100,7 +100,7 @@ export function addBot(room: Room, name?: string): string {
     socketId: `bot-${botId}`, // fake socket ID
     isHost: false,
     connected: true,
-    missionaryIndex: Math.floor(Math.random() * 60),
+    avatarIndex: Math.floor(Math.random() * 30),
     isBot: true,
   };
 
@@ -460,7 +460,7 @@ function buildBotClientState(room: Room): ClientRoomState {
       isHost: p.isHost,
       connected: p.connected,
       disconnectedAt: p.disconnectedAt,
-      missionaryIndex: p.missionaryIndex,
+      avatarIndex: p.avatarIndex,
       isBot: p.isBot,
     })),
     phase: room.phase,

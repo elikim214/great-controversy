@@ -4,7 +4,7 @@
 // ============================================================
 
 /** App version — update this with every push */
-export const APP_VERSION = '3.0.1';
+export const APP_VERSION = '3.1.0';
 
 /** Maximum bots per game (leaves room for at least 1 human) */
 export const MAX_BOTS = 14;

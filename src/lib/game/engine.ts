@@ -31,7 +31,7 @@ export function generateRoomCode(): string {
 }
 
 /** Create a new room with the host as first player */
-export function createRoom(hostName: string, hostSocketId: string): { room: Room; hostId: string } {
+export function createRoom(hostName: string, hostSocketId: string, avatarIndex?: number): { room: Room; hostId: string } {
   const hostId = uuidv4();
   const room: Room = {
     code: generateRoomCode(),
@@ -43,7 +43,7 @@ export function createRoom(hostName: string, hostSocketId: string): { room: Room
         socketId: hostSocketId,
         isHost: true,
         connected: true,
-        missionaryIndex: Math.floor(Math.random() * 60),
+        avatarIndex: avatarIndex ?? Math.floor(Math.random() * 30),
       },
     ],
     phase: GamePhase.Lobby,
@@ -64,15 +64,28 @@ export function createRoom(hostName: string, hostSocketId: string): { room: Room
 }
 
 /** Add a player to a room */
-export function addPlayer(room: Room, displayName: string, socketId: string): { room: Room; playerId: string } {
+export function addPlayer(room: Room, displayName: string, socketId: string, avatarIndex?: number): { room: Room; playerId: string } {
   const playerId = uuidv4();
+  // Prevent duplicate avatars: if the chosen index is taken, find the next available
+  const takenIndices = new Set(room.players.map(p => p.avatarIndex));
+  let finalIndex = avatarIndex ?? Math.floor(Math.random() * 30);
+  if (takenIndices.has(finalIndex)) {
+    // Find the next available avatar index
+    for (let i = 0; i < 30; i++) {
+      const candidate = (finalIndex + i) % 30;
+      if (!takenIndices.has(candidate)) {
+        finalIndex = candidate;
+        break;
+      }
+    }
+  }
   const player: Player = {
     id: playerId,
     displayName,
     socketId,
     isHost: false,
     connected: true,
-    missionaryIndex: Math.floor(Math.random() * 60),
+    avatarIndex: finalIndex,
   };
   room.players.push(player);
   return { room, playerId };

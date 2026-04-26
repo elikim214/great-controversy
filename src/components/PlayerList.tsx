@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from 'react';
 import type { ClientPlayer } from '@/lib/game/types';
-import { pickMissionary, getMissionaryAvatarUrl } from '@/lib/game/missionaries';
+import { pickMissionary, getMissionaryAvatarUrl, getAvatarImageUrl } from '@/lib/game/missionaries';
 
 interface Props {
   players: ClientPlayer[];
@@ -52,8 +52,9 @@ export default function PlayerList({
         const isLeader = p.id === leaderId;
         const isSelected = selectedIds.includes(p.id);
         const canSelect = selectable && onToggleSelect && (isSelected || !maxSelectable || selectedIds.length < maxSelectable);
-        const missionary = pickMissionary(p.missionaryIndex);
-        const avatarUrl = getMissionaryAvatarUrl(missionary.avatarSeed, p.missionaryIndex);
+        const missionary = pickMissionary(p.avatarIndex);
+        const avatarImageUrl = getAvatarImageUrl(p.avatarIndex);
+        const fallbackUrl = getMissionaryAvatarUrl(missionary.avatarSeed, p.avatarIndex);
         const isExpanded = expandedId === p.id;
 
         return (
@@ -87,10 +88,13 @@ export default function PlayerList({
                   }}
                 >
                   <img
-                    src={avatarUrl}
+                    src={avatarImageUrl}
                     alt={missionary.name}
-                    className="w-full h-full rounded-full"
+                    className="w-full h-full rounded-full object-cover"
                     style={{ background: 'var(--card-bg)' }}
+                    onError={(e) => {
+                      (e.target as HTMLImageElement).src = fallbackUrl;
+                    }}
                   />
                 </div>
                 <div className="min-w-0">
@@ -163,14 +167,20 @@ export default function PlayerList({
                       alt={missionary.name}
                       className="w-14 h-14 rounded-lg object-cover flex-shrink-0"
                       onError={(e) => {
-                        (e.target as HTMLImageElement).src = avatarUrl;
+                        (e.target as HTMLImageElement).src = avatarImageUrl;
+                        (e.target as HTMLImageElement).onerror = () => {
+                          (e.target as HTMLImageElement).src = fallbackUrl;
+                        };
                       }}
                     />
                   ) : (
                     <img
-                      src={avatarUrl}
+                      src={avatarImageUrl}
                       alt={missionary.name}
-                      className="w-14 h-14 rounded-lg flex-shrink-0"
+                      className="w-14 h-14 rounded-lg flex-shrink-0 object-cover"
+                      onError={(e) => {
+                        (e.target as HTMLImageElement).src = fallbackUrl;
+                      }}
                     />
                   )}
                   <div className="min-w-0">

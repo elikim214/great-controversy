@@ -65,6 +65,15 @@ const AVATAR_SYMBOLS = [
 ];
 
 /**
+ * Returns the avatar image URL for the given index (0-29).
+ * Use with an onError fallback to the SVG emblem system.
+ */
+export function getAvatarImageUrl(index: number): string {
+  const padded = String(index + 1).padStart(2, '0');
+  return `/avatars/avatar-${padded}.png`;
+}
+
+/**
  * Returns an SVG data URL emblem avatar for the given index.
  * Each player gets a unique symbol (Compass, Shield, Flame, Star, etc.) with a colored palette.
  */
