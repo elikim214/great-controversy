@@ -1,0 +1,557 @@
+@import "tailwindcss";
+
+:root {
+  --background: #080c16;
+  --foreground: #dfe6f0;
+  --accent-gold: #c8a44e;
+  --accent-blue: #4a90d9;
+  --accent-light: #7eb3e8;
+  --card-bg: color-mix(in oklch, #080c16, white 5%);
+  --card-bg-elevated: color-mix(in oklch, #080c16, white 8%);
+  --card-border: #1e293b;
+  --danger: #d94f4f;
+  --success: #3bba5e;
+  --muted: #5b6b82;
+  /* Aurora component color vars */
+  --white: #ffffff;
+  --black: #080c16;
+  --transparent: transparent;
+  --blue-300: #7eb3e8;
+  --blue-400: #5a9de0;
+  --blue-500: #4a90d9;
+  --indigo-300: #a5b4fc;
+  --violet-200: #ddd6fe;
+}
+
+@theme inline {
+  --color-background: var(--background);
+  --color-foreground: var(--foreground);
+  --color-gold: var(--accent-gold);
+  --color-blue: var(--accent-blue);
+  --color-light: var(--accent-light);
+  --color-card: var(--card-bg);
+  --color-card-elevated: var(--card-bg-elevated);
+  --color-card-border: var(--card-border);
+  --color-danger: var(--danger);
+  --color-success: var(--success);
+  --color-muted: var(--muted);
+  --font-sans: var(--font-sans, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif);
+  --font-serif: var(--font-serif, "Playfair Display", "Georgia", "Times New Roman", serif);
+  --font-mono: ui-monospace, "Cascadia Code", "Source Code Pro", Menlo, monospace;
+  --animate-aurora: aurora 60s linear infinite;
+}
+
+@keyframes aurora {
+  from {
+    background-position: 50% 50%, 50% 50%;
+  }
+  to {
+    background-position: 350% 50%, 350% 50%;
+  }
+}
+
+body {
+  background: var(--background);
+  color: var(--foreground);
+  font-family: var(--font-sans);
+}
+
+/* ============================================
+   SERIF FONT FOR HEADINGS
+   ============================================ */
+h1, h2, h3, .font-serif {
+  font-family: var(--font-serif);
+}
+
+/* Fluid heading sizes */
+h1 {
+  font-size: clamp(1.75rem, 4vw + 0.5rem, 3.5rem);
+  letter-spacing: -0.02em;
+}
+h2 {
+  font-size: clamp(1.35rem, 2.5vw + 0.5rem, 2.25rem);
+  letter-spacing: -0.02em;
+}
+h3 {
+  font-size: clamp(1.1rem, 1.5vw + 0.5rem, 1.5rem);
+  letter-spacing: -0.01em;
+}
+
+/* Text balance utility */
+.text-balance {
+  text-wrap: balance;
+}
+
+/* ============================================
+   KEYFRAME ANIMATIONS
+   ============================================ */
+
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes slideUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes scaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.85);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+@keyframes textReveal {
+  from {
+    opacity: 0;
+    transform: translateY(15px);
+    filter: blur(4px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes pulseSoft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.7; }
+}
+
+@keyframes slowZoom {
+  0% { transform: scale(1); }
+  100% { transform: scale(1.08); }
+}
+
+@keyframes float {
+  0%, 100% { transform: translateY(0); }
+  50% { transform: translateY(-6px); }
+}
+
+@keyframes gradientShift {
+  0% { background-position: 0% 50%; }
+  50% { background-position: 100% 50%; }
+  100% { background-position: 0% 50%; }
+}
+
+@keyframes revealLine {
+  from {
+    clip-path: inset(0 100% 0 0);
+  }
+  to {
+    clip-path: inset(0 0 0 0);
+  }
+}
+
+@keyframes phaseReveal {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* ============================================
+   ANIMATION UTILITY CLASSES
+   ============================================ */
+
+.animate-fade-in {
+  animation: fadeIn 0.6s ease-out both;
+}
+
+.animate-slide-up {
+  animation: slideUp 0.6s ease-out both;
+}
+
+@keyframes slideInRight {
+  from { transform: translateX(100%); }
+  to { transform: translateX(0); }
+}
+
+.animate-slide-in-right {
+  animation: slideInRight 0.25s ease-out both;
+}
+
+.animate-fade-in-up {
+  animation: fadeInUp 0.5s ease-out both;
+}
+
+.animate-scale-in {
+  animation: scaleIn 0.5s ease-out both;
+}
+
+.animate-text-reveal {
+  animation: textReveal 0.8s ease-out both;
+}
+
+.animate-slow-zoom {
+  animation: slowZoom 20s ease-in-out infinite alternate;
+}
+
+.animate-float {
+  animation: float 3s ease-in-out infinite;
+}
+
+.animate-pulse-soft {
+  animation: pulseSoft 2.5s ease-in-out infinite;
+}
+
+.animate-phase-reveal {
+  animation: phaseReveal 0.4s ease-out both;
+}
+
+/* ============================================
+   STAGGERED ANIMATION DELAYS
+   ============================================ */
+
+.delay-100 { animation-delay: 100ms; }
+.delay-200 { animation-delay: 200ms; }
+.delay-300 { animation-delay: 300ms; }
+.delay-400 { animation-delay: 400ms; }
+.delay-500 { animation-delay: 500ms; }
+.delay-600 { animation-delay: 600ms; }
+.delay-700 { animation-delay: 700ms; }
+.delay-800 { animation-delay: 800ms; }
+.delay-900 { animation-delay: 900ms; }
+.delay-1000 { animation-delay: 1000ms; }
+
+/* ============================================
+   CARD STYLING
+   ============================================ */
+
+.game-card {
+  background: var(--card-bg);
+  border: none;
+  border-left: 3px solid var(--accent-gold);
+  border-radius: 0.5rem;
+  padding: 1.5rem;
+  padding-left: 1.75rem;
+}
+
+/* ============================================
+   HERO IMAGE STYLES
+   ============================================ */
+
+.hero-location {
+  position: relative;
+  border-radius: 0.5rem;
+  overflow: hidden;
+  min-height: 250px;
+}
+
+.hero-location img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  animation: slowZoom 20s ease-in-out infinite alternate;
+}
+
+.hero-location .hero-overlay {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(
+    to top,
+    rgba(8, 12, 22, 0.9) 0%,
+    rgba(8, 12, 22, 0.5) 40%,
+    rgba(8, 12, 22, 0.15) 70%,
+    transparent 100%
+  );
+}
+
+.hero-location .hero-content {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 1.5rem;
+}
+
+/* ============================================
+   BUTTON BASE
+   ============================================ */
+
+.btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem 2rem;
+  border-radius: 0.5rem;
+  font-weight: 700;
+  transition: all 0.2s ease, transform 80ms ease;
+  cursor: pointer;
+  border: 1px solid transparent;
+  font-size: 1.125rem;
+}
+
+.btn:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn:disabled {
+  opacity: 0.5;
+  cursor: not-allowed;
+}
+
+.btn-primary {
+  background: #4a90d9;
+  color: white;
+  border-color: color-mix(in oklch, #4a90d9, white 20%);
+}
+
+.btn-primary:hover:not(:disabled) {
+  background: color-mix(in oklch, #4a90d9, white 10%);
+  transform: translateY(-1px);
+}
+
+.btn-primary:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-secondary {
+  background: transparent;
+  color: var(--foreground);
+  border-color: #2a3550;
+}
+
+.btn-secondary:hover:not(:disabled) {
+  background: #141e30;
+  border-color: #3a4a68;
+}
+
+.btn-danger {
+  background: #d94f4f;
+  color: white;
+  border-color: color-mix(in oklch, #d94f4f, white 20%);
+}
+
+.btn-danger:hover:not(:disabled) {
+  background: color-mix(in oklch, #d94f4f, white 10%);
+  transform: translateY(-1px);
+}
+
+.btn-danger:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+.btn-success {
+  background: #3bba5e;
+  color: white;
+  border-color: color-mix(in oklch, #3bba5e, white 20%);
+}
+
+.btn-success:hover:not(:disabled) {
+  background: color-mix(in oklch, #3bba5e, white 10%);
+  transform: translateY(-1px);
+}
+
+.btn-success:active:not(:disabled) {
+  transform: scale(0.98);
+}
+
+/* ============================================
+   MISSION TRACKER DOTS
+   ============================================ */
+
+.mission-dot {
+  width: 3rem;
+  height: 3rem;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 700;
+  font-size: 0.85rem;
+  border: 2px solid var(--card-border);
+  transition: all 0.3s;
+}
+
+.mission-dot.success {
+  background: var(--success);
+  border-color: var(--success);
+  color: white;
+  animation: scaleIn 0.4s ease-out both;
+}
+
+.mission-dot.failure {
+  background: var(--danger);
+  border-color: var(--danger);
+  color: white;
+  animation: scaleIn 0.4s ease-out both;
+}
+
+.mission-dot.active {
+  border-color: var(--accent-blue);
+  color: var(--accent-blue);
+  box-shadow: 0 0 0 3px rgba(74, 144, 217, 0.3);
+  animation: pulseSoft 2.5s ease-in-out infinite;
+}
+
+.mission-dot.pending {
+  background: transparent;
+  color: var(--muted);
+}
+
+/* Phase message animation */
+.fade-in-up {
+  animation: fadeInUp 0.5s ease-out;
+}
+
+/* Pulse for waiting states */
+@keyframes pulse-glow {
+  0%, 100% { opacity: 0.75; }
+  50% { opacity: 1; }
+}
+
+.pulse-glow {
+  animation: pulse-glow 2s ease-in-out infinite;
+}
+
+/* ============================================
+   INPUT STYLING
+   ============================================ */
+
+/* ============================================
+   3D CARD FLIP
+   ============================================ */
+
+.card-flip-container {
+  perspective: 1000px;
+}
+
+.card-flip-inner {
+  position: relative;
+  width: 100%;
+  height: 100%;
+  transition: transform 0.9s cubic-bezier(0.4, 0.0, 0.15, 1);
+  transform-style: preserve-3d;
+}
+
+.card-flip-inner.flipped {
+  transform: rotateY(180deg);
+}
+
+.card-flip-front,
+.card-flip-back {
+  position: absolute;
+  inset: 0;
+  backface-visibility: hidden;
+  -webkit-backface-visibility: hidden;
+  border-radius: 8px;
+  overflow: hidden;
+}
+
+.card-flip-front {
+  transform: rotateY(0deg);
+}
+
+.card-flip-back {
+  transform: rotateY(180deg);
+}
+
+@keyframes roleGlow {
+  0% { box-shadow: 0 0 0px transparent; }
+  50% { box-shadow: 0 0 40px var(--glow-color, rgba(200, 164, 78, 0.5)); }
+  100% { box-shadow: 0 0 20px var(--glow-color, rgba(200, 164, 78, 0.3)); }
+}
+
+.card-role-glow {
+  animation: roleGlow 1.2s ease-out forwards;
+  animation-delay: 0.85s;
+}
+
+/* ============================================
+   INPUT STYLING
+   ============================================ */
+
+input[type="text"] {
+  background: var(--card-bg);
+  border: none;
+  border-bottom: 2px solid #2a3550;
+  color: var(--foreground);
+  padding: 0.75rem 0.5rem;
+  border-radius: 0;
+  font-size: 1rem;
+  width: 100%;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+input[type="text"]:focus {
+  border-bottom-color: var(--accent-gold);
+}
+
+input[type="text"]::placeholder {
+  color: var(--muted);
+}
+
+/* Large room code input variant */
+input.room-code-input {
+  font-size: clamp(2rem, 6vw, 3rem);
+  font-family: var(--font-mono);
+  text-align: center;
+  letter-spacing: 0.3em;
+  padding: 1rem 0.5rem;
+}
+
+/* ============================================
+   AMBIENT CSS PARTICLES (legacy, kept for compatibility)
+   ============================================ */
+
+.ambient-particles {
+  position: absolute;
+  inset: 0;
+  overflow: hidden;
+  pointer-events: none;
+}
+
+.ambient-particles::before,
+.ambient-particles::after {
+  content: '';
+  position: absolute;
+  border-radius: 50%;
+  background: rgba(74, 144, 217, 0.06);
+  animation: float 6s ease-in-out infinite;
+}
+
+.ambient-particles::before {
+  width: 200px;
+  height: 200px;
+  top: 20%;
+  left: 10%;
+  animation-delay: 0s;
+}
+
+.ambient-particles::after {
+  width: 150px;
+  height: 150px;
+  bottom: 20%;
+  right: 10%;
+  animation-delay: 3s;
+}
