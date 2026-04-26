@@ -88,23 +88,62 @@ export default function VotePanel({ proposal, players, myId, onVote, missions, c
             </p>
           )}
 
-          {/* Individual votes with colored dots — revealed one at a time */}
+          {/* Avatar grid vote reveal */}
           {proposal.votes && (
-            <div className="space-y-1 mb-4">
+            <div className="grid grid-cols-4 gap-3 mb-4 justify-items-center">
               {voteEntries.map(([playerId, approved], i) => {
-                const name = players.find(p => p.id === playerId)?.displayName;
-                if (i >= revealIndex) return null;
+                const player = players.find(p => p.id === playerId);
+                if (!player) return null;
+                const isRevealed = i < revealIndex;
                 return (
                   <div
                     key={playerId}
-                    className="flex items-center gap-2 text-sm animate-fade-in-up"
+                    className="flex flex-col items-center gap-1"
                   >
-                    <span
-                      className="w-2 h-2 rounded-full flex-shrink-0"
-                      style={{ background: approved ? 'var(--success)' : 'var(--danger)' }}
-                    />
-                    <span className="text-foreground/80">{name}</span>
-                    <span className="text-xs text-muted ml-auto">{approved ? 'Approve' : 'Reject'}</span>
+                    <div
+                      className="relative rounded-full overflow-hidden transition-all duration-500"
+                      style={{
+                        width: 48,
+                        height: 48,
+                        border: isRevealed
+                          ? `3px solid ${approved ? 'var(--success)' : 'var(--danger)'}`
+                          : '3px solid var(--card-border)',
+                        transform: isRevealed ? 'rotateY(0deg)' : 'rotateY(180deg)',
+                        opacity: isRevealed ? 1 : 0.5,
+                      }}
+                    >
+                      <img
+                        src={`/avatars/avatar-${String(player.avatarIndex + 1).padStart(2, '0')}.png`}
+                        alt={player.displayName}
+                        className="w-full h-full object-cover"
+                        style={{ background: 'var(--card-bg)' }}
+                      />
+                      {/* Vote icon overlay */}
+                      {isRevealed && (
+                        <div
+                          className="absolute inset-0 flex items-center justify-center animate-scale-in"
+                          style={{
+                            background: approved
+                              ? 'rgba(59, 186, 94, 0.3)'
+                              : 'rgba(217, 79, 79, 0.3)',
+                          }}
+                        >
+                          {approved ? (
+                            <svg width="20" height="20" viewBox="0 0 20 20" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round" strokeLinejoin="round">
+                              <polyline points="4,10 8,14 16,6" />
+                            </svg>
+                          ) : (
+                            <svg width="16" height="16" viewBox="0 0 16 16" fill="none" stroke="white" strokeWidth="3" strokeLinecap="round">
+                              <line x1="3" y1="3" x2="13" y2="13" />
+                              <line x1="13" y1="3" x2="3" y2="13" />
+                            </svg>
+                          )}
+                        </div>
+                      )}
+                    </div>
+                    <span className="text-[9px] text-muted max-w-[52px] truncate text-center">
+                      {player.displayName}
+                    </span>
                   </div>
                 );
               })}

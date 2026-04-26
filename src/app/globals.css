@@ -663,3 +663,52 @@ input.room-code-input {
   .sabotage-text { animation: fadeIn 0.3s ease-out both; }
   .sabotage-glitch { animation: none; }
 }
+
+/* ============================================
+   LOCATION TRANSITION
+   ============================================ */
+
+@keyframes fogIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+@keyframes fogOut {
+  from { opacity: 1; }
+  to { opacity: 0; }
+}
+
+@keyframes fogDrift {
+  0% { transform: translateX(-10%) scale(1.1); }
+  100% { transform: translateX(10%) scale(1.1); }
+}
+
+.location-transition-overlay {
+  position: absolute;
+  inset: 0;
+  z-index: 10;
+  pointer-events: none;
+  background: linear-gradient(
+    135deg,
+    rgba(8, 12, 22, 0.95) 0%,
+    rgba(30, 41, 59, 0.85) 40%,
+    rgba(8, 12, 22, 0.9) 100%
+  );
+  animation: fogIn 0.4s ease-out both;
+}
+
+.location-transition-overlay.fade-out {
+  animation: fogOut 0.6s ease-in both;
+}
+
+.location-transition-overlay::before {
+  content: '';
+  position: absolute;
+  inset: -20%;
+  background: radial-gradient(
+    ellipse at center,
+    rgba(74, 144, 217, 0.08) 0%,
+    transparent 70%
+  );
+  animation: fogDrift 2s ease-in-out infinite alternate;
+}

@@ -1,6 +1,6 @@
 'use client';
 
-import { useState, useEffect } from 'react';
+import { useState, useEffect, useRef } from 'react';
 import { useGame } from '@/context/GameContext';
 import { GamePhase } from '@/lib/game/types';
 import MissionTracker from './MissionTracker';
@@ -130,6 +130,7 @@ export default function GameRoom() {
   const [sabbathInfo, setSabbathInfo] = useState<string | undefined>();
   const [soundOn, setSoundOn] = useState(getSoundEnabled);
   const [sabotageAnimActive, setSabotageAnimActive] = useState(false);
+  const [locationTransition, setLocationTransition] = useState(false);
 
   // Check Sabbath on mount using geolocation
   useEffect(() => {
@@ -287,6 +288,17 @@ export default function GameRoom() {
       return () => clearTimeout(timeout);
     }
   }, [missionRevealDone, roomState?.missions, roomState?.currentMissionIndex]);
+
+  // Location transition animation on mission change
+  const prevMissionIndex = useRef(roomState?.currentMissionIndex ?? 0);
+  useEffect(() => {
+    if (roomState && roomState.currentMissionIndex !== prevMissionIndex.current) {
+      setLocationTransition(true);
+      const timeout = setTimeout(() => setLocationTransition(false), 1200);
+      prevMissionIndex.current = roomState.currentMissionIndex;
+      return () => clearTimeout(timeout);
+    }
+  }, [roomState?.currentMissionIndex]);
 
   if (!roomState || !session) {
     return (
@@ -487,6 +499,16 @@ export default function GameRoom() {
       {currentMission && roomState.phase !== GamePhase.Lobby && roomState.phase !== GamePhase.RoleReveal && roomState.phase !== GamePhase.FirstNight && roomState.phase !== GamePhase.GameOver && (
         <div className="mb-4 animate-fade-in-up">
           <div className="hero-location" style={{ minHeight: '220px' }}>
+            {/* Location transition fog */}
+            {locationTransition && (
+              <div className="location-transition-overlay">
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <p className="text-white/60 text-xs font-serif italic animate-pulse-soft">
+                    Traveling to next destination...
+                  </p>
+                </div>
+              </div>
+            )}
             <img
               src={`/locations/${currentMission.location.image}`}
               alt={`${currentMission.location.name}, ${currentMission.location.region}`}
@@ -757,9 +779,41 @@ export default function GameRoom() {
         {/* TEAM PROPOSAL */}
         {roomState.phase === GamePhase.TeamProposal && currentMission && (
           <div className="space-y-4 animate-fade-in-up">
-            {/* Discussion timer */}
-            <div className="text-center text-xs text-muted font-mono animate-fade-in">
-              Discussion: {Math.floor(discussionElapsed / 60)}:{(discussionElapsed % 60).toString().padStart(2, '0')}
+            {/* Discussion timer ring */}
+            <div className="flex items-center justify-center mb-2 animate-fade-in">
+              <div className="relative" style={{ width: 56, height: 56 }}>
+                <svg viewBox="0 0 56 56" className="w-full h-full -rotate-90">
+                  {/* Background ring */}
+                  <circle
+                    cx="28"
+                    cy="28"
+                    r="24"
+                    fill="none"
+                    stroke="var(--card-border)"
+                    strokeWidth="3"
+                    opacity="0.3"
+                  />
+                  {/* Progress ring — depletes over 3 minutes */}
+                  <circle
+                    cx="28"
+                    cy="28"
+                    r="24"
+                    fill="none"
+                    stroke={discussionElapsed >= 180 ? 'var(--accent-gold)' : 'var(--accent-blue)'}
+                    strokeWidth="3"
+                    strokeLinecap="round"
+                    strokeDasharray={`${2 * Math.PI * 24}`}
+                    strokeDashoffset={`${2 * Math.PI * 24 * Math.min(discussionElapsed / 180, 1)}`}
+                    className={`transition-all duration-1000 ease-linear ${discussionElapsed >= 180 ? 'animate-pulse-soft' : ''}`}
+                  />
+                </svg>
+                {/* Time text in center */}
+                <div className="absolute inset-0 flex items-center justify-center">
+                  <span className={`text-xs font-mono ${discussionElapsed >= 180 ? 'text-gold' : 'text-muted'}`}>
+                    {Math.floor(discussionElapsed / 60)}:{(discussionElapsed % 60).toString().padStart(2, '0')}
+                  </span>
+                </div>
+              </div>
             </div>
             <div className="game-card">
               <h3 className="font-serif font-bold mb-1">
