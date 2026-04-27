@@ -279,15 +279,19 @@ export default function GameRoom() {
     return () => clearInterval(interval);
   }, [roomState?.phase, roomState?.currentMissionIndex]);
 
-  // Sabotage animation trigger
+  // Sabotage animation trigger — only fire once per mission reveal
   useEffect(() => {
+    if (roomState?.phase !== GamePhase.MissionReveal) {
+      setSabotageAnimActive(false);
+      return;
+    }
     const mission = roomState?.missions?.[roomState?.currentMissionIndex ?? 0];
     if (missionRevealDone && mission?.result === 'failure' && !sabotageAnimActive) {
       setSabotageAnimActive(true);
       const timeout = setTimeout(() => setSabotageAnimActive(false), 2500);
       return () => clearTimeout(timeout);
     }
-  }, [missionRevealDone, roomState?.missions, roomState?.currentMissionIndex]);
+  }, [missionRevealDone, roomState?.phase]);
 
   // Location transition animation on mission change
   const prevMissionIndex = useRef(roomState?.currentMissionIndex ?? 0);
@@ -478,9 +482,28 @@ export default function GameRoom() {
             hideCurrentResult={roomState.phase === GamePhase.MissionReveal && !missionRevealDone}
           />
           {roomState.consecutiveRejections > 0 && (
-            <p className="text-center text-xs text-danger mt-1 animate-fade-in">
-              Rejected proposals: {roomState.consecutiveRejections}/5
-            </p>
+            <div className={`text-center mt-2 px-3 py-1.5 rounded-lg animate-fade-in ${
+              roomState.consecutiveRejections >= 4
+                ? 'bg-danger/20 border border-danger/40'
+                : roomState.consecutiveRejections >= 3
+                  ? 'bg-gold/15 border border-gold/30'
+                  : ''
+            }`}>
+              <p className={`text-xs font-bold ${
+                roomState.consecutiveRejections >= 4 ? 'text-danger text-sm animate-pulse-soft' :
+                roomState.consecutiveRejections >= 3 ? 'text-gold' : 'text-danger'
+              }`}>
+                {roomState.consecutiveRejections >= 4
+                  ? `WARNING: ${5 - roomState.consecutiveRejections} more rejection and Babylon wins!`
+                  : `Rejected proposals: ${roomState.consecutiveRejections}/5`
+                }
+              </p>
+              {roomState.consecutiveRejections >= 3 && (
+                <p className="text-[10px] text-muted mt-0.5">
+                  5 consecutive rejections = Babylon victory
+                </p>
+              )}
+            </div>
           )}
         </div>
       )}
