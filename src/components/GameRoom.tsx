@@ -695,6 +695,16 @@ export default function GameRoom() {
               </div>
             )}
 
+            {/* Free play info */}
+            <div className="text-center space-y-1 animate-fade-in delay-500">
+              <p className="text-xs text-muted">
+                Free to play with up to {FREE_PLAYER_LIMIT} players
+              </p>
+              <p className="text-[10px] text-gold/60">
+                Free for all players (up to 15) during Sabbath hours — sunset Friday to sunset Saturday based on the host&apos;s location
+              </p>
+            </div>
+
             <RulesDropdown />
           </div>
         )}
