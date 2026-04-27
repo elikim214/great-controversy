@@ -130,6 +130,7 @@ export default function GameRoom() {
   const [sabbathInfo, setSabbathInfo] = useState<string | undefined>();
   const [soundOn, setSoundOn] = useState(getSoundEnabled);
   const [sabotageAnimActive, setSabotageAnimActive] = useState(false);
+  const [codeCopied, setCodeCopied] = useState(false);
   const [locationTransition, setLocationTransition] = useState(false);
 
   // Check Sabbath on mount using geolocation
@@ -388,12 +389,32 @@ export default function GameRoom() {
         {roomState.phase === GamePhase.Lobby ? (
           <div className="mb-4 animate-fade-in">
             <p className="text-xs text-muted uppercase tracking-widest mb-1 animate-fade-in-up">Room Code</p>
-            <p className="text-6xl font-bold font-mono tracking-[0.2em] text-gold animate-scale-in delay-200">{roomState.code}</p>
+            <p
+              className="text-6xl font-bold font-mono tracking-[0.2em] text-gold animate-scale-in delay-200 cursor-pointer active:scale-95 transition-transform"
+              onClick={() => {
+                navigator.clipboard.writeText(roomState.code);
+                setCodeCopied(true);
+                setTimeout(() => setCodeCopied(false), 2000);
+              }}
+              title="Tap to copy"
+            >
+              {codeCopied ? 'Copied!' : roomState.code}
+            </p>
             <p className="text-sm text-muted mt-2 animate-fade-in-up delay-400">Playing as <span className="text-blue font-semibold">{session.displayName}</span></p>
           </div>
         ) : (
           <div className="flex items-center justify-between mb-2 animate-fade-in">
-            <span className="text-xs text-muted font-mono">Room: {roomState.code}</span>
+            <span
+              className="text-xs text-muted font-mono cursor-pointer hover:text-gold transition-colors"
+              onClick={() => {
+                navigator.clipboard.writeText(roomState.code);
+                setCodeCopied(true);
+                setTimeout(() => setCodeCopied(false), 2000);
+              }}
+              title="Tap to copy"
+            >
+              {codeCopied ? 'Copied!' : `Room: ${roomState.code}`}
+            </span>
             <span className="text-blue text-sm font-semibold">{session.displayName}</span>
             <div className="flex items-center gap-2">
               <button
