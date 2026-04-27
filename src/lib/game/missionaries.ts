@@ -11,6 +11,7 @@ export interface Missionary {
   bio: string;
   avatarSeed: string;
   photoUrl: string;
+  gender: 'M' | 'F';
 }
 
 const AVATAR_PALETTES = [
@@ -95,12 +96,22 @@ function hashCode(str: string): number {
   return hash;
 }
 
+// Avatar index -> gender mapping
+const AVATAR_GENDER: Record<number, 'M' | 'F'> = {};
+// Male avatars (0-indexed): 0,3,4,6,8,10,11,12,14,16,18,20,22,24,26
+[0,3,4,6,8,10,11,12,14,16,18,20,22,24,26].forEach(i => AVATAR_GENDER[i] = 'M');
+// Female avatars (0-indexed): 1,2,5,7,9,13,15,17,19,21,23,25
+[1,2,5,7,9,13,15,17,19,21,23,25].forEach(i => AVATAR_GENDER[i] = 'F');
+
 /**
- * Pick a missionary by cycling through the array (backward compatible).
+ * Pick a missionary matching the avatar's gender.
+ * Falls back to cycling through all missionaries if no gender match is available.
  */
 export function pickMissionary(index: number): Missionary {
-  const len = MISSIONARIES.length;
-  return MISSIONARIES[((index % len) + len) % len];
+  const gender = AVATAR_GENDER[index % 27] || 'M';
+  const genderMatches = MISSIONARIES.filter(m => m.gender === gender);
+  if (genderMatches.length === 0) return MISSIONARIES[index % MISSIONARIES.length];
+  return genderMatches[index % genderMatches.length];
 }
 
 /**
@@ -126,6 +137,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'The first official Seventh-day Adventist missionary sent overseas, sailing to Switzerland in 1874 with his two children. A brilliant scholar and linguist, he founded Les Signes des Temps, the first Adventist periodical in French, and labored tirelessly to establish the Adventist movement in Europe until his death in Basel.',
     avatarSeed: 'J.N. Andrews',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-02',
@@ -135,6 +147,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Co-founder of the Seventh-day Adventist Church and one of the most translated female authors in history, writing over 5,000 articles and 40 books. Her prophetic counsel shaped Adventist education, healthcare, and global mission strategy, and her masterwork The Great Controversy continues to guide millions of believers worldwide.',
     avatarSeed: 'Ellen G. White',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-03',
@@ -144,6 +157,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Co-founder of the Seventh-day Adventist Church who organized scattered Advent believers into a unified denomination. He established the Review and Herald Publishing Association, founded multiple periodicals, and served as General Conference president three times, building the institutional backbone of the worldwide Adventist movement.',
     avatarSeed: 'James White',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-04',
@@ -153,6 +167,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Retired sea captain and co-founder of the Seventh-day Adventist Church who championed the seventh-day Sabbath truth after studying Scripture independently. He traveled tirelessly across North America at his own expense, preaching and organizing early Adventist congregations, often sleeping in barns and going without food to spread the message.',
     avatarSeed: 'Joseph Bates',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-05',
@@ -162,6 +177,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Self-supporting Adventist missionary who sailed to Hong Kong at age 61 after the General Conference told him he was too old for mission service. He spent over two decades distributing literature and sharing the gospel among sailors and Chinese residents, laying the groundwork for the entire Adventist mission presence in East Asia.',
     avatarSeed: 'Abram La Rue',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-06',
@@ -171,6 +187,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Adventist missionary who devoted his life to the Aymara and Quechua people around Lake Titicaca in Peru, establishing schools, clinics, and churches at over 12,000 feet elevation. His tireless advocacy transformed entire indigenous communities, and the Peruvian government recognized his extraordinary service to the nation.',
     avatarSeed: 'Fernando Stahl',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-07',
@@ -180,6 +197,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Trained nurse and wife of Fernando Stahl who served alongside him among the indigenous peoples of the Peruvian Andes. She provided critical medical care in remote highland communities where no doctors existed, and her compassionate nursing ministry opened countless doors for the Adventist mission around Lake Titicaca.',
     avatarSeed: 'Ana Stahl',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-08',
@@ -189,6 +207,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Beloved Adventist missionary to Burma who served as a dentist, builder, and master storyteller among the Karen people. His captivating mission stories, told at camp meetings across North America for decades, inspired generations of young Adventists to pursue mission service, and his books remain treasured classics.',
     avatarSeed: 'Eric B. Hare',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-09',
@@ -198,6 +217,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Known as the "Apostle of the Amazon," this Adventist medical missionary built and operated the Luzeiro medical launch, bringing healthcare and the gospel to remote communities along the Amazon River for over 25 years. He constructed multiple medical boats and treated tens of thousands of patients in regions no other doctor would reach.',
     avatarSeed: 'Leo Halliwell',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-10',
@@ -207,6 +227,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'First Seventh-day Adventist woman sent as a missionary to India, arriving in Calcutta in 1895. She endured severe illness, cultural isolation, and limited resources while pioneering Adventist work on the subcontinent, establishing schools and training local workers who would carry the mission forward across India.',
     avatarSeed: 'Georgia Burrus',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-11',
@@ -216,6 +237,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Known as the "China Doctor," this Adventist medical missionary served in China for over 40 years, founding hospitals and sanitariums across the country. He developed soy milk as an affordable protein source for malnourished populations, and his innovation grew into a commercial enterprise that funded further mission work throughout Asia.',
     avatarSeed: 'Harry Miller',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-12',
@@ -225,6 +247,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Seventh-day Adventist combat medic who refused to carry a weapon yet saved 75 men at the Battle of Okinawa, lowering them one by one down a 400-foot escarpment under withering enemy fire. He became the first conscientious objector to receive the Medal of Honor, and his story, told in the film Hacksaw Ridge, inspired the world with the power of conviction.',
     avatarSeed: 'Desmond Doss',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-13',
@@ -234,6 +257,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Pioneer Adventist missionary to Africa who spent over 30 years establishing mission stations across Nyasaland (Malawi), Rhodesia (Zimbabwe), and other parts of southern and central Africa. He endured malaria, isolation, and enormous hardship to build schools and churches that became the foundation of the Adventist Church in Africa.',
     avatarSeed: 'W.H. Anderson',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-14',
@@ -243,6 +267,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Indigenous Solomon Islander who converted to Adventism and became one of the most effective missionaries in the South Pacific. He fearlessly carried the gospel to hostile villages across the Solomon Islands, often at great personal risk, and is credited with bringing thousands of islanders to faith through his courageous witness.',
     avatarSeed: 'Kata Ragoso',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-15',
@@ -252,6 +277,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Swiss-Argentine Adventist missionary who pioneered the Adventist message across Argentina and neighboring South American countries. He established churches, schools, and medical facilities throughout the region, and his dedication to the indigenous and rural populations helped make South America one of the strongest Adventist territories in the world.',
     avatarSeed: 'Pedro Kalbermatter',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-16',
@@ -261,6 +287,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'The first unofficial Seventh-day Adventist missionary to Europe, a Polish-born former Catholic priest who brought Adventist teachings to Switzerland and Italy in the 1860s without official denominational support. His independent work in Tramelan, Switzerland, raised up the first European Sabbath-keeping Adventist congregation years before the church formally sent J.N. Andrews.',
     avatarSeed: 'Michael B. Czechowski',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-17',
@@ -270,6 +297,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'One of the earliest Adventist ministers who carried the Adventist message to Great Britain in 1878, establishing the first Adventist congregations in England and Scotland. He was also a historian of the movement, authoring The Great Second Advent Movement, and served the church for over 60 years as evangelist, administrator, and chronicler.',
     avatarSeed: 'John Loughborough',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-18',
@@ -279,6 +307,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'German-American Adventist leader who became the driving force behind the expansion of the Adventist Church across continental Europe and into the Middle East and Russia. Under his leadership, the European Division grew from a handful of believers to tens of thousands, and he established the Hamburg Publishing House as a major center of Adventist literature.',
     avatarSeed: 'L.R. Conradi',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-19',
@@ -288,6 +317,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Longest-serving General Conference president (1901–1922) who transformed the Adventist Church from a primarily North American denomination into a truly global movement. He reorganized the church structure, championed aggressive mission expansion, and under his leadership the number of overseas mission fields multiplied dramatically.',
     avatarSeed: 'A.G. Daniells',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-20',
@@ -297,6 +327,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Secretary and later president of the General Conference who served as the chief architect of Adventist foreign mission strategy for decades. He traveled the world inspecting mission fields, wrote extensively about the progress of the Adventist global mission, and his administrative vision helped coordinate one of the most far-reaching Protestant mission enterprises of the 20th century.',
     avatarSeed: 'William Spicer',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-21',
@@ -306,6 +337,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Norwegian-American Adventist leader who served as General Conference president and was instrumental in establishing the Adventist work in Scandinavia. He organized churches across Norway, Denmark, and Sweden, and his international perspective helped the denomination embrace its global mission calling during a critical period of growth.',
     avatarSeed: 'O.A. Olsen',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-22',
@@ -315,6 +347,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Tireless Adventist evangelist and missionary organizer who helped establish Adventist work in Australia, India, Africa, and across the United States. He pioneered the Bible worker training model, founded numerous churches, and traveled the globe well into his eighties, earning the title "the old war horse" for his indefatigable spirit.',
     avatarSeed: 'Stephen Haskell',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-23',
@@ -324,6 +357,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'First African American Seventh-day Adventist missionary, serving in India from 1901 to 1907 before returning to dedicate decades to educational work in the American South. She established schools for Black communities in Mississippi, fought for educational equity, and her autobiography Mississippi Girl became an inspiring testament to perseverance and faith.',
     avatarSeed: 'Anna Knight',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-24',
@@ -333,6 +367,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Guyanese Adventist missionary who served across the Caribbean and later in West Africa, pioneering Adventist work in Sierra Leone. He endured tropical diseases and enormous logistical challenges to establish churches and schools, and his dedication helped build the foundation of the Adventist Church in English-speaking West Africa.',
     avatarSeed: 'Philip Giddings',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-25',
@@ -342,6 +377,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Adventist missionary to Fiji who spent years living among indigenous Fijians, learning their language and customs while establishing schools and churches throughout the islands. His dramatic story of a Fijian chief who tested the Sabbath by chopping wood to see if God would strike him dead became one of the most retold mission stories in Adventist history.',
     avatarSeed: 'John Fulton',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-26',
@@ -351,6 +387,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'British-born Adventist missionary who pioneered educational and evangelistic work in South Africa, establishing some of the earliest Adventist institutions on the continent. She served with extraordinary determination through periods of war and political upheaval, helping to build a lasting Adventist presence in southern Africa.',
     avatarSeed: 'Jessie Rogers',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-27',
@@ -360,6 +397,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Early Adventist medical missionary and health reformer who dedicated her career to promoting the health message as an entering wedge for evangelism. She worked closely with Adventist sanitariums and training programs, helping establish the medical missionary model that became a hallmark of Seventh-day Adventist mission work worldwide.',
     avatarSeed: 'Lottie Blake',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-28',
@@ -369,6 +407,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Early Adventist missionary to Japan who arrived in the 1890s and worked to establish the Adventist message in one of the most challenging mission fields in Asia. He translated key Adventist literature into Japanese and laid the groundwork for the organized Adventist Church in Japan through patient, persistent ministry.',
     avatarSeed: 'J.E. Fulton',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-29',
@@ -378,6 +417,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Adventist physician and medical missionary who founded the Hinsdale Sanitarium near Chicago, bringing Adventist health principles to thousands of patients. He worked alongside John Harvey Kellogg in the early days and remained committed to medical evangelism, training scores of young people for lives of service in health ministry.',
     avatarSeed: 'David Paulson',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-30',
@@ -387,6 +427,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Adventist missionary nurse who served for decades in India, providing medical care and health education in rural communities where modern medicine had never reached. Her sacrificial service and deep love for the Indian people opened doors for the gospel and helped establish the Adventist medical mission presence across the subcontinent.',
     avatarSeed: 'Alma Wiles',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-31',
@@ -396,6 +437,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Adventist missionary who spent decades establishing the church across the Pacific Islands, including the Solomon Islands, Papua New Guinea, and other remote island groups. He navigated dangerous waters in small boats, braved tropical diseases, and worked among peoples who had never heard the gospel, planting congregations that still thrive today.',
     avatarSeed: 'G.F. Jones',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-32',
@@ -405,6 +447,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Pioneer Adventist missionary to the South Pacific who helped establish the Avondale School in Australia and led the expansion of Adventist mission work across Polynesia and Melanesia. He organized the first Adventist institutions in the Pacific and trained local workers who would carry the message to islands he could never personally visit.',
     avatarSeed: 'E.H. Gates',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-33',
@@ -414,6 +457,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Dynamic Adventist evangelist and missionary who conducted major evangelistic campaigns across Southeast Asia, winning thousands to the faith. His innovative approaches to public evangelism in Malaysia, Singapore, and the Philippines made him one of the most successful Adventist soul-winners in Asia during the mid-20th century.',
     avatarSeed: 'F.A. Detamore',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-34',
@@ -423,6 +467,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Adventist leader who spent years as a missionary in Africa before serving as General Conference president. His firsthand experience in African mission fields shaped his global vision, and he championed the training and empowerment of indigenous church leaders, helping the African Adventist Church grow into one of the largest divisions in the world.',
     avatarSeed: 'W.H. Branson',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-35',
@@ -432,6 +477,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Adventist missionary who pioneered the church\'s work in Central America, establishing schools, churches, and medical clinics in Honduras, Guatemala, and neighboring countries. Her decades of faithful service in challenging tropical conditions helped build a thriving Adventist community that continues to grow across the region today.',
     avatarSeed: 'Jessie Curtis',
     photoUrl: '',
+    gender: 'F',
   },
 
   // -------------------------------------------------------
@@ -445,6 +491,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Scottish physician and explorer who opened the interior of Africa to missions, famously declaring "I am prepared to go anywhere, provided it be forward." His journeys mapped uncharted territories and fought the slave trade across the continent, and his death kneeling in prayer became one of the most iconic images in mission history.',
     avatarSeed: 'David Livingstone',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-37',
@@ -454,6 +501,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Founded the China Inland Mission and pioneered the practice of adopting local dress and customs to reach inland Chinese communities. His faith-based funding model, trusting God alone for provision, influenced modern mission organizations worldwide, and his mission eventually placed over 800 missionaries across China.',
     avatarSeed: 'Hudson Taylor',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-38',
@@ -463,6 +511,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Martyred at age 28 while attempting to reach the Huaorani people of Ecuador. His journal entry, "He is no fool who gives what he cannot keep to gain what he cannot lose," has inspired generations of missionaries to sacrificial service, and his wife Elisabeth later lived among the very tribe that killed him.',
     avatarSeed: 'Jim Elliot',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-39',
@@ -472,6 +521,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Known as the "Father of Modern Missions," this English cobbler-turned-missionary translated the Bible into Bengali, Sanskrit, and numerous other languages. He transformed Indian education, championed social reform including the abolition of sati, and his famous challenge "Expect great things from God; attempt great things for God" launched the modern missionary movement.',
     avatarSeed: 'William Carey',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-40',
@@ -481,6 +531,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'First American foreign missionary who endured 17 months of brutal imprisonment and the loss of his wife to bring the gospel to Burma. He translated the entire Bible into Burmese and compiled the first Burmese-English dictionary, laying the foundation for the church in Myanmar that endures to this day.',
     avatarSeed: 'Adoniram Judson',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-41',
@@ -490,6 +541,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Rescued hundreds of children from temple slavery in southern India and founded the Dohnavur Fellowship. She served for 55 years without a single furlough, writing 35 books that continue to inspire believers around the world with their honest portrayal of faith through suffering.',
     avatarSeed: 'Amy Carmichael',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-42',
@@ -499,6 +551,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Scottish mill worker who became a fearless missionary in Calabar, Nigeria, ending the practice of killing twins and advocating for women and children. She served as a magistrate and earned the title "Mother of All the Peoples" for her decades of transformative service among the Okoyong and Efik peoples.',
     avatarSeed: 'Mary Slessor',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-43',
@@ -508,6 +561,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Southern Baptist missionary who served in China for nearly 40 years, ultimately giving her food to starving Chinese villagers until she herself perished of malnutrition. The annual Lottie Moon Christmas Offering established in her memory has raised billions of dollars for international missions.',
     avatarSeed: 'Lottie Moon',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-44',
@@ -517,6 +571,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Renowned English cricketer who gave away his fortune and spent his life serving in three mission fields across three continents. He founded the Worldwide Evangelization Crusade, declaring, "If Jesus Christ be God and died for me, no sacrifice can be too great for me to make for Him."',
     avatarSeed: 'C.T. Studd',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-45',
@@ -526,6 +581,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'English parlor maid who traveled overland to China and ran an inn for mule drivers where she shared the gospel. During the Japanese invasion, she led over 100 orphaned children on a harrowing trek across the mountains to safety, an epic journey later immortalized in the film The Inn of the Sixth Happiness.',
     avatarSeed: 'Gladys Aylward',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-46',
@@ -535,6 +591,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Dutch watchmaker who hid Jews during the Holocaust and survived the Ravensbruck concentration camp. She spent the rest of her life traveling to over 60 countries, sharing a powerful message of forgiveness and God\'s love even for one\'s enemies, proving that no pit is so deep that God\'s love is not deeper still.',
     avatarSeed: 'Corrie ten Boom',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-47',
@@ -544,6 +601,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Cared for over 10,000 orphans in Bristol through prayer alone, never directly asking anyone for donations. In his later years he traveled 200,000 miles preaching in 42 countries, demonstrating a life of radical dependence on God that has inspired faith missions for generations.',
     avatarSeed: 'George Muller',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-48',
@@ -553,6 +611,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Scottish missionary to the cannibalistic tribes of the New Hebrides who endured the death of his wife and child, attacks on his life, and years of isolation. His extraordinary perseverance saw entire islands turn from violence to faith in Christ, and his autobiography remains one of the greatest missionary biographies ever written.',
     avatarSeed: 'John Paton',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-49',
@@ -562,6 +621,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Founded the Christian Medical College in Vellore, India, after witnessing three women die in one night because cultural norms prevented male doctors from treating them. Her hospital became one of Asia\'s finest medical institutions and continues to train doctors and serve the poor today.',
     avatarSeed: 'Ida Scudder',
     photoUrl: '',
+    gender: 'F',
   },
   {
     id: 'missionary-50',
@@ -571,6 +631,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Founded Wycliffe Bible Translators and the Summer Institute of Linguistics after realizing indigenous Guatemalans could not read Spanish Bibles. His vision to translate Scripture into every language on earth has resulted in translations for thousands of language groups and transformed the field of Bible translation forever.',
     avatarSeed: 'Cameron Townsend',
     photoUrl: '',
+    gender: 'M',
   },
 
   // -------------------------------------------------------
@@ -584,6 +645,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Former persecutor of Christians transformed by an encounter with the risen Christ on the road to Damascus. He planted churches across the Roman Empire on three missionary journeys and authored thirteen epistles that form the theological backbone of the New Testament, becoming the greatest missionary the world has ever known.',
     avatarSeed: 'Paul the Apostle',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-52',
@@ -593,6 +655,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Known as the "Son of Encouragement," he sold his field to support the early church and championed Paul when others doubted his conversion. His missionary journeys with Paul established churches across Cyprus and Asia Minor, and he later mentored John Mark, demonstrating that restoring a fallen believer can yield eternal fruit.',
     avatarSeed: 'Barnabas',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-53',
@@ -602,6 +665,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Young disciple from Lystra whom Paul called "my true son in the faith," becoming Paul\'s most trusted companion and co-laborer. He traveled with Paul on his second and third missionary journeys and later pastored the strategic church at Ephesus, receiving two of Paul\'s most personal and instructive letters.',
     avatarSeed: 'Timothy',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-54',
@@ -611,6 +675,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Prophet and leader in the Jerusalem church who accompanied Paul on his second missionary journey through Asia Minor and into Europe. He endured imprisonment and beating alongside Paul in Philippi, singing hymns at midnight, and helped establish the churches in Thessalonica, Berea, and Corinth.',
     avatarSeed: 'Silas',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-55',
@@ -620,6 +685,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Fisherman from Galilee who became the leader of the twelve apostles and the rock upon whom Christ said He would build His church. His sermon at Pentecost brought 3,000 souls to faith in a single day, and his ministry to both Jews and Gentiles opened the door for the gospel to reach all nations.',
     avatarSeed: 'Peter the Apostle',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-56',
@@ -629,6 +695,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'One of the seven deacons chosen to serve the early church who became a powerful evangelist, bringing revival to Samaria. Led by the Spirit to the desert road to Gaza, he baptized the Ethiopian eunuch, opening the door for the gospel to reach the African continent, and later settled in Caesarea where he raised four prophesying daughters.',
     avatarSeed: 'Philip the Evangelist',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-57',
@@ -638,6 +705,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Young man who accompanied Paul and Barnabas on their first missionary journey but turned back, causing a sharp disagreement between the two apostles. Later restored and mentored by Barnabas, he proved himself faithful and became the author of the Gospel of Mark, which tradition says recorded Peter\'s eyewitness testimony of Christ.',
     avatarSeed: 'John Mark',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-58',
@@ -647,6 +715,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Husband-and-wife team of tentmakers who partnered with Paul in ministry across the Roman Empire, hosting house churches in every city where they lived. They discipled the eloquent Apollos in sound theology, risked their lives for Paul, and became one of the earliest examples of a missionary couple working side by side for the gospel.',
     avatarSeed: 'Priscilla and Aquila',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-59',
@@ -656,6 +725,7 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Physician and historian who accompanied Paul on multiple missionary journeys and authored both the Gospel of Luke and the Book of Acts, together comprising over a quarter of the New Testament. His careful, detailed writing preserved the history of the early church and the spread of the gospel from Jerusalem to Rome for all generations.',
     avatarSeed: 'Luke the Physician',
     photoUrl: '',
+    gender: 'M',
   },
   {
     id: 'missionary-60',
@@ -665,5 +735,6 @@ export const MISSIONARIES: Missionary[] = [
     bio: 'Eloquent Jewish scholar from Alexandria who was mighty in the Scriptures and powerfully refuted opponents in public debate, proving from the Old Testament that Jesus was the Messiah. After being more accurately instructed by Priscilla and Aquila, he became a dynamic evangelist in Corinth, watering what Paul had planted.',
     avatarSeed: 'Apollos',
     photoUrl: '',
+    gender: 'M',
   },
 ];
