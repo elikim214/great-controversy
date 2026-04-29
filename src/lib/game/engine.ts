@@ -30,6 +30,15 @@ export function generateRoomCode(): string {
   return code;
 }
 
+/** Pick an avatarIndex (0-26) not already used in the room. Falls back to random if all 27 are taken. */
+export function pickAvailableAvatarIndex(room: Room): number {
+  const used = new Set(room.players.map(p => p.avatarIndex));
+  const free: number[] = [];
+  for (let i = 0; i < 27; i++) if (!used.has(i)) free.push(i);
+  if (free.length === 0) return Math.floor(Math.random() * 27);
+  return free[Math.floor(Math.random() * free.length)];
+}
+
 /** Create a new room with the host as first player */
 export function createRoom(hostName: string, hostSocketId: string, avatarIndex?: number): { room: Room; hostId: string } {
   const hostId = uuidv4();
@@ -43,7 +52,7 @@ export function createRoom(hostName: string, hostSocketId: string, avatarIndex?:
         socketId: hostSocketId,
         isHost: true,
         connected: true,
-        avatarIndex: avatarIndex ?? Math.floor(Math.random() * 30),
+        avatarIndex: avatarIndex ?? Math.floor(Math.random() * 27),
       },
     ],
     phase: GamePhase.Lobby,
@@ -67,26 +76,15 @@ export function createRoom(hostName: string, hostSocketId: string, avatarIndex?:
 /** Add a player to a room */
 export function addPlayer(room: Room, displayName: string, socketId: string, avatarIndex?: number): { room: Room; playerId: string } {
   const playerId = uuidv4();
-  // Prevent duplicate avatars: if the chosen index is taken, find the next available
-  const takenIndices = new Set(room.players.map(p => p.avatarIndex));
-  let finalIndex = avatarIndex ?? Math.floor(Math.random() * 30);
-  if (takenIndices.has(finalIndex)) {
-    // Find the next available avatar index
-    for (let i = 0; i < 30; i++) {
-      const candidate = (finalIndex + i) % 30;
-      if (!takenIndices.has(candidate)) {
-        finalIndex = candidate;
-        break;
-      }
-    }
-  }
   const player: Player = {
     id: playerId,
     displayName,
     socketId,
     isHost: false,
     connected: true,
-    avatarIndex: finalIndex,
+    avatarIndex: avatarIndex !== undefined && !room.players.some(p => p.avatarIndex === avatarIndex)
+      ? avatarIndex
+      : pickAvailableAvatarIndex(room),
   };
   room.players.push(player);
   return { room, playerId };
@@ -424,6 +422,7 @@ export function assassinGuess(room: Room, targetId: string): Room {
       missionSuccesses: countMissionResults(room, 'success'),
       missionFailures: countMissionResults(room, 'failure'),
       assassinGuessCorrect: true,
+      assassinGuessTargetName: target.displayName,
     };
     room.phase = GamePhase.GameOver;
   } else {
@@ -441,6 +440,7 @@ export function assassinGuess(room: Room, targetId: string): Room {
         missionSuccesses: countMissionResults(room, 'success'),
         missionFailures: countMissionResults(room, 'failure'),
         assassinGuessCorrect: false,
+        assassinGuessTargetName: target.displayName,
       };
       room.phase = GamePhase.GameOver;
     }

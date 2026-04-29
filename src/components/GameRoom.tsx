@@ -1174,6 +1174,7 @@ export default function GameRoom() {
               myId={myId}
               onGuess={assassinGuess}
               guessesRemaining={roomState.assassinGuessesRemaining}
+              guessResult={assassinResult}
             />
           </div>
         )}

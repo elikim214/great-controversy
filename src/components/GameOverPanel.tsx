@@ -24,7 +24,7 @@ export default function GameOverPanel({ result, players, isHost, onRestart, onRe
   }
 
   return (
-    <div className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-black/80 p-6 animate-phase-reveal">
+    <div className="fixed inset-0 z-40 flex flex-col items-center justify-center bg-black/95 p-6 animate-phase-reveal">
       <div className="w-full max-w-md text-center space-y-6">
         <h2 className={`font-serif text-4xl md:text-5xl font-bold tracking-tight text-balance ${isGoodWin ? 'text-gold' : 'text-danger'}`}>
           {isGoodWin ? 'The Light Prevails' : 'Babylon Triumphs'}
@@ -48,12 +48,15 @@ export default function GameOverPanel({ result, players, isHost, onRestart, onRe
         </p>
 
         {result.assassinGuessCorrect !== undefined && (
-          <p className="text-sm text-muted">
-            The Assassin&apos;s guess was{' '}
-            <span className={`font-bold ${result.assassinGuessCorrect ? 'text-danger' : 'text-success'}`}>
-              {result.assassinGuessCorrect ? 'correct' : 'wrong'}
-            </span>
-          </p>
+          <div className="space-y-1">
+            <p className="text-sm text-muted">
+              The Assassin targeted{' '}
+              <span className="font-bold text-gold">{result.assassinGuessTargetName}</span>
+            </p>
+            <p className={`text-sm font-bold ${result.assassinGuessCorrect ? 'text-danger' : 'text-success'}`}>
+              {result.assassinGuessCorrect ? 'Correct — the Angel was found!' : 'Wrong — the Angel was safe!'}
+            </p>
+          </div>
         )}
 
         {/* All Roles Revealed */}

@@ -39,6 +39,7 @@ import {
   getBabylonPlayerIds,
   getAngelPlayerId,
   getDarkAngelPlayerId,
+  pickAvailableAvatarIndex,
 } from '../src/lib/game/engine';
 
 // Bot names pool — missionary-themed
@@ -100,7 +101,7 @@ export function addBot(room: Room, name?: string): string {
     socketId: `bot-${botId}`, // fake socket ID
     isHost: false,
     connected: true,
-    avatarIndex: Math.floor(Math.random() * 30),
+    avatarIndex: pickAvailableAvatarIndex(room),
     isBot: true,
   };
 
@@ -138,6 +139,12 @@ export function getBotIds(room: Room): string[] {
  */
 export function initializeBotStates(room: Room): void {
   const roomCode = room.code;
+  // Clear per-game dedup state so a Play Again does not block bot actions
+  // when the new game's phaseKey collides with the previous game (eg MissionAction-0-0).
+  botActedPhase.delete(roomCode);
+  for (const key of [...botMissionActions.keys()]) {
+    if (key.startsWith(roomCode + "-")) botMissionActions.delete(key);
+  }
   if (!botStates.has(roomCode)) botStates.set(roomCode, new Map());
   const states = botStates.get(roomCode)!;
 

@@ -138,6 +138,7 @@ export interface GameResult {
   missionSuccesses: number;
   missionFailures: number;
   assassinGuessCorrect?: boolean;
+  assassinGuessTargetName?: string;
 }
 
 /** Configuration options set by host before game start */

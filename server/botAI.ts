@@ -38,6 +38,7 @@ export interface BotState {
   trustScores: Record<string, number>;
   missionHistory: MissionRecord[];
   lastChatPhase: string;
+  recentChats: string[];
   isBot: true;
 }
 
@@ -77,6 +78,7 @@ export function createBotState(
     trustScores: {},
     missionHistory: [],
     lastChatPhase: '',
+    recentChats: [],
     isBot: true,
   };
 }
@@ -469,30 +471,39 @@ const FALLBACK_TEMPLATES = {
   ],
 };
 
-function pickTemplate(templates: string[]): string {
-  return templates[Math.floor(Math.random() * templates.length)];
+function pickTemplate(templates: string[], exclude: string[] = []): string {
+  const fresh = templates.filter(t => !exclude.includes(t));
+  const pool = fresh.length > 0 ? fresh : templates;
+  return pool[Math.floor(Math.random() * pool.length)];
+}
+
+function rememberChat(bot: BotState, text: string): string {
+  bot.recentChats.push(text);
+  if (bot.recentChats.length > 5) bot.recentChats.shift();
+  return text;
 }
 
 function generateFallbackChat(bot: BotState, context: string): string {
   const isBabylon = bot.alignment === Alignment.Babylon;
+  const recent = bot.recentChats;
 
   switch (context) {
     case 'missionFail':
-      return isBabylon
-        ? pickTemplate(FALLBACK_TEMPLATES.babylonDeflect)
-        : pickTemplate(FALLBACK_TEMPLATES.missionFail);
+      return rememberChat(bot, isBabylon
+        ? pickTemplate(FALLBACK_TEMPLATES.babylonDeflect, recent)
+        : pickTemplate(FALLBACK_TEMPLATES.missionFail, recent));
     case 'missionSuccess':
-      return pickTemplate(FALLBACK_TEMPLATES.missionSuccess);
+      return rememberChat(bot, pickTemplate(FALLBACK_TEMPLATES.missionSuccess, recent));
     case 'voteResult':
-      return pickTemplate(FALLBACK_TEMPLATES.voteComment);
+      return rememberChat(bot, pickTemplate(FALLBACK_TEMPLATES.voteComment, recent));
     case 'accused':
-      return pickTemplate(FALLBACK_TEMPLATES.defend);
+      return rememberChat(bot, pickTemplate(FALLBACK_TEMPLATES.defend, recent));
     case 'proposing':
-      return pickTemplate(FALLBACK_TEMPLATES.proposalExplain);
+      return rememberChat(bot, pickTemplate(FALLBACK_TEMPLATES.proposalExplain, recent));
     default:
-      return isBabylon
-        ? pickTemplate(FALLBACK_TEMPLATES.babylonDeflect)
-        : pickTemplate(FALLBACK_TEMPLATES.general);
+      return rememberChat(bot, isBabylon
+        ? pickTemplate(FALLBACK_TEMPLATES.babylonDeflect, recent)
+        : pickTemplate(FALLBACK_TEMPLATES.general, recent));
   }
 }
 
