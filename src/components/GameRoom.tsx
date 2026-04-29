@@ -345,7 +345,7 @@ export default function GameRoom() {
   };
 
   return (
-    <div className="flex-1 flex flex-col max-w-lg mx-auto w-full p-4">
+    <div className="flex-1 flex flex-col max-w-lg mx-auto w-full p-4 pb-20">
       {/* Phase message overlay */}
       {phaseMessage && (
         <PhaseMessage

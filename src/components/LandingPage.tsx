@@ -24,7 +24,7 @@ export default function LandingPage() {
   const [displayName, setDisplayName] = useState('');
   const [roomCode, setRoomCode] = useState('');
   const [loading, setLoading] = useState(false);
-  const [selectedAvatar, setSelectedAvatar] = useState<number>(() => Math.floor(Math.random() * 30));
+  const [selectedAvatar, setSelectedAvatar] = useState<number>(() => Math.floor(Math.random() * 27));
 
   const handleCreate = async () => {
     if (!displayName.trim()) return;
@@ -151,7 +151,7 @@ export default function LandingPage() {
             <div>
               <p className="text-xs text-muted mb-2 text-center">Choose your avatar</p>
               <div className="grid grid-cols-5 gap-3 max-h-[280px] overflow-y-auto p-1">
-                {Array.from({ length: 30 }, (_, i) => {
+                {Array.from({ length: 27 }, (_, i) => {
                   const m = pickMissionary(i);
                   const fallback = getMissionaryAvatarUrl(m.avatarSeed, i);
                   return (
@@ -217,7 +217,7 @@ export default function LandingPage() {
             <div>
               <p className="text-xs text-muted mb-2 text-center">Choose your avatar</p>
               <div className="grid grid-cols-5 gap-3 max-h-[280px] overflow-y-auto p-1">
-                {Array.from({ length: 30 }, (_, i) => {
+                {Array.from({ length: 27 }, (_, i) => {
                   const m = pickMissionary(i);
                   const fallback = getMissionaryAvatarUrl(m.avatarSeed, i);
                   return (
