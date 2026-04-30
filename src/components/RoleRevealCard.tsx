@@ -58,7 +58,7 @@ export default function RoleRevealCard({ role, alignment, description, onReveale
       <div
         ref={containerRef}
         className="card-flip-container"
-        style={{ width: 240, height: 687, maxHeight: '70vh', aspectRatio: '262 / 750' }}
+        style={{ width: 240, height: 568, maxHeight: '70vh', aspectRatio: '262 / 620' }}
       >
         <div className={`card-flip-inner ${flipped ? 'flipped' : ''}`}>
           {/* FRONT FACE — Card Back (visible initially) */}

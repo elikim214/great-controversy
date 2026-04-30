@@ -342,8 +342,9 @@ h3 {
 }
 
 .btn:disabled {
-  opacity: 0.5;
+  opacity: 0.4 !important;
   cursor: not-allowed;
+  filter: grayscale(0.4);
 }
 
 .btn-primary {
