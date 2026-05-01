@@ -74,29 +74,30 @@ export default function ChatPanel() {
   const otherPlayers = players.filter(p => p.id !== myId);
 
   return (
+    <>
+      {/* Collapsed: small floating pill in bottom-right so it never hides UI */}
+      {!expanded && (
+        <button
+          onClick={() => setExpanded(true)}
+          className="fixed bottom-4 right-4 z-50 flex items-center gap-2 px-4 py-2 rounded-full shadow-lg"
+          style={{
+            background: 'var(--card-bg)',
+            border: '1px solid rgba(255,255,255,0.12)',
+          }}
+        >
+          <span className="text-muted text-xs font-semibold uppercase tracking-wider">Chat</span>
+          {unreadCount > 0 && (
+            <span
+              className="text-white text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center animate-scale-in"
+              style={{ background: 'var(--accent-blue)' }}
+            >
+              {unreadCount}
+            </span>
+          )}
+        </button>
+      )}
     <div className="fixed bottom-0 left-0 right-0 z-50 pointer-events-none">
       <div className="max-w-lg mx-auto pointer-events-auto">
-        {/* Collapsed bar - slim */}
-        {!expanded && (
-          <button
-            onClick={() => setExpanded(true)}
-            className="w-full flex items-center justify-between px-4 py-2"
-            style={{
-              background: 'var(--card-bg)',
-              borderTop: '1px solid rgba(255,255,255,0.08)',
-            }}
-          >
-            <span className="text-muted text-xs font-semibold uppercase tracking-wider">Chat</span>
-            {unreadCount > 0 && (
-              <span
-                className="text-white text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center animate-scale-in"
-                style={{ background: 'var(--accent-blue)' }}
-              >
-                {unreadCount}
-              </span>
-            )}
-          </button>
-        )}
 
         {/* Expanded panel */}
         {expanded && (
@@ -204,6 +205,7 @@ export default function ChatPanel() {
         )}
       </div>
     </div>
+    </>
   );
 }
 

@@ -28,6 +28,8 @@ export default function VotePanel({ proposal, players, myId, onVote, missions, c
     if (hasVoted || voted) return;
     setVoted(true);
     onVote(approve);
+    // If the server doesn't confirm within 5s (eg socket drop), allow re-vote.
+    setTimeout(() => setVoted(false), 5000);
   };
 
   // Collect past proposal votes for history
