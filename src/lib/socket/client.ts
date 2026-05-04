@@ -16,6 +16,8 @@ export function getSocket(): Socket<ServerToClientEvents, ClientToServerEvents> 
       reconnectionAttempts: 10,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
+      transports: ['websocket'],
+      upgrade: false,
     });
     socket.on('connect', () => console.log('[Socket] connected, id:', socket!.id));
     socket.on('disconnect', (reason) => console.log('[Socket] disconnected:', reason));
