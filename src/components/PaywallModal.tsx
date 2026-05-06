@@ -110,7 +110,7 @@ export default function PaywallModal({ roomCode, onClose, onCouponApplied, playe
           <div className="text-4xl mb-3">&#x1F451;</div>
           <h2 className="font-serif text-2xl font-bold text-gold mb-2">Unlock Full Game</h2>
           <p className="text-muted text-sm">
-            Games with {playerCount}+ players require a Pro subscription
+            Games with 7+ players require a Pro subscription
           </p>
         </div>
 
@@ -123,7 +123,7 @@ export default function PaywallModal({ roomCode, onClose, onCouponApplied, playe
         {/* Features */}
         <ul className="space-y-2.5 mb-6">
           {[
-            'Unlimited players (up to 15)',
+            'Larger games (7-15 players)',
             'Support ongoing development',
             'Cancel anytime',
           ].map((feature) => (
