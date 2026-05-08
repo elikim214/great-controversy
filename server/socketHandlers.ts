@@ -69,6 +69,79 @@ const rooms = new Map<string, Room>();
 // Map socket IDs to room codes for disconnect handling
 const socketToRoom = new Map<string, string>();
 
+// Per-room phase timer for auto-resolving stuck votes/mission actions.
+// If a player drops off (closed tab, network drop) and never submits
+// their vote or mission action, the timer fires server-side defaults
+// so the game advances instead of hanging forever.
+const PHASE_TIMEOUT_MS = 60_000;
+const phaseTimers = new Map<string, { phase: GamePhase; timer: NodeJS.Timeout }>();
+
+function clearPhaseTimer(roomCode: string): void {
+  const existing = phaseTimers.get(roomCode);
+  if (existing) {
+    clearTimeout(existing.timer);
+    phaseTimers.delete(roomCode);
+  }
+}
+
+function maybeStartPhaseTimer(
+  io: SocketIOServer<ClientToServerEvents, ServerToClientEvents>,
+  room: Room,
+): void {
+  const existing = phaseTimers.get(room.code);
+  // Same phase as last broadcast → leave existing timer running.
+  if (existing && existing.phase === room.phase) return;
+  // Phase changed → drop the stale timer.
+  if (existing) clearTimeout(existing.timer);
+  phaseTimers.delete(room.code);
+
+  // Only TeamVote and MissionAction can hang on missing players.
+  if (room.phase !== GamePhase.TeamVote && room.phase !== GamePhase.MissionAction) {
+    return;
+  }
+
+  const phaseAtSchedule = room.phase;
+  const timer = setTimeout(() => {
+    // Bail if the room or phase moved on while we were waiting.
+    if (!rooms.has(room.code)) return;
+    if (room.phase !== phaseAtSchedule) return;
+
+    try {
+      if (phaseAtSchedule === GamePhase.TeamVote) {
+        const mission = room.missions[room.currentMissionIndex];
+        const proposal = mission?.proposals[mission.currentProposalIndex];
+        if (proposal) {
+          for (const p of room.players) {
+            if (proposal.votes[p.id] === undefined) {
+              submitVote(room, p.id, false); // default = reject
+            }
+          }
+          resolveVote(room);
+        }
+      } else if (phaseAtSchedule === GamePhase.MissionAction) {
+        const mission = room.missions[room.currentMissionIndex];
+        if (mission) {
+          const acted = new Set(mission.actions.map(a => a.playerId));
+          for (const playerId of mission.team) {
+            if (!acted.has(playerId)) {
+              submitMissionAction(room, playerId, false); // default = support
+            }
+          }
+          resolveMission(room);
+        }
+      }
+    } catch (err) {
+      console.error(`[PhaseTimer] Error in timeout handler for ${room.code}:`, err);
+    }
+
+    phaseTimers.delete(room.code);
+    broadcastRoomState(io, room);
+    triggerBots(io, room);
+  }, PHASE_TIMEOUT_MS);
+
+  phaseTimers.set(room.code, { phase: phaseAtSchedule, timer });
+}
+
 // Chat message ID counter
 let chatMessageIdCounter = 0;
 function generateChatMessageId(): string {
@@ -779,6 +852,7 @@ function broadcastRoomState(
 ): void {
   const state = sanitizeRoomState(room);
   io.to(room.code).emit('room:state', state);
+  maybeStartPhaseTimer(io, room);
 }
 
 /** Strip private information from room state */
