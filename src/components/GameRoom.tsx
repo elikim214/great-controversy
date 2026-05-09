@@ -6,6 +6,7 @@ import { GamePhase } from '@/lib/game/types';
 import MissionTracker from './MissionTracker';
 import MissionMap from './MissionMap';
 import PlayerList from './PlayerList';
+import PlayerCircle from './PlayerCircle';
 import RoleCard from './RoleCard';
 import RoleRevealCard from './RoleRevealCard';
 import VotePanel from './VotePanel';
@@ -833,6 +834,12 @@ export default function GameRoom() {
         {/* TEAM PROPOSAL */}
         {roomState.phase === GamePhase.TeamProposal && currentMission && (
           <div className="space-y-4 animate-fade-in-up">
+            {/* Table view: who's leader, who's next */}
+            <PlayerCircle
+              players={roomState.players}
+              currentLeaderIndex={roomState.currentLeaderIndex}
+              myId={myId}
+            />
             {/* Discussion timer ring */}
             <div className="flex items-center justify-center mb-2 animate-fade-in">
               <div className="relative" style={{ width: 56, height: 56 }}>
