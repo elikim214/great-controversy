@@ -15,9 +15,51 @@ const inter = Inter({
   display: "swap",
 });
 
+const SITE_URL = "https://game.givefreely.org";
+const TITLE = "The Great Controversy";
+const DESC = "A Last Day ADVENTure Game — hidden role social deduction for 5-15 players. Bible-themed Avalon-style game with missionary stories, scripture, and free play during Sabbath hours.";
+
 export const metadata: Metadata = {
-  title: "The Great Controversy",
-  description: "A Last Day ADVENTure Game — Hidden role social deduction for 5-15 players",
+  metadataBase: new URL(SITE_URL),
+  title: TITLE,
+  description: DESC,
+  applicationName: TITLE,
+  keywords: [
+    "social deduction game",
+    "Avalon",
+    "Adventist game",
+    "Christian game",
+    "Bible game",
+    "youth group game",
+    "hidden role game",
+    "missionary game",
+    "Sabbath",
+  ],
+  openGraph: {
+    type: "website",
+    siteName: TITLE,
+    title: TITLE,
+    description: DESC,
+    url: SITE_URL,
+    images: [
+      {
+        url: "/og-image.jpg",
+        width: 1200,
+        height: 630,
+        alt: TITLE,
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: TITLE,
+    description: DESC,
+    images: ["/og-image.jpg"],
+  },
+  robots: {
+    index: true,
+    follow: true,
+  },
 };
 
 export default function RootLayout({
