@@ -46,10 +46,10 @@ export default function RoleRevealCard({ role, alignment, description, onReveale
     if (flipped) return;
     cardFlip();
     setFlipped(true);
-    // Total animation duration: 900ms
+    // Card-flip is 900ms; hold the art on screen ~4s after flip so the user can actually see it.
     setTimeout(() => {
       onRevealed();
-    }, 950);
+    }, 5000);
   }, [flipped, onRevealed]);
 
   return (
