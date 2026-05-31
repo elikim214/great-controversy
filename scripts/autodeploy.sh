@@ -65,15 +65,16 @@ fi
 rm -rf .next
 npm run build || fail "npm run build"
 
-# Restart server in production mode
-lsof -ti :3001 | xargs kill -9 2>/dev/null || true
-sleep 2
-PORT=3001 NODE_ENV=production nohup npx tsx server/index.ts > /tmp/gc-server.log 2>&1 &
-sleep 2
+# Restart the launchd-managed service. -k stops the running instance and
+# launches a fresh one, so the new build + env file are picked up cleanly.
+# Fighting launchd with kill+nohup doesn't work — KeepAlive respawns instantly.
+SERVICE="gui/$(id -u)/com.apps.great-controversy"
+launchctl kickstart -k "$SERVICE" || fail "launchctl kickstart"
+sleep 4
 
-# Sanity check: did the server come up?
+# Sanity check: did the service come back listening?
 if ! lsof -ti :3001 >/dev/null 2>&1; then
-  fail "server startup (nothing listening on :3001)"
+  fail "server startup (nothing listening on :3001 after launchctl restart)"
 fi
 
 COMMIT_MSG=$(git log -1 --format='%s' "$REMOTE")

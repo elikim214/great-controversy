@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<!--
+  Mac Mini LaunchAgent for great-controversy.
+  Calls scripts/launchd-start.sh which sources ~/.great-controversy.env
+  (chmod 600) so ANTHROPIC_API_KEY never has to live inside this plist.
+
+  Install:
+    cp scripts/com.apps.great-controversy.plist ~/Library/LaunchAgents/
+    launchctl unload ~/Library/LaunchAgents/com.apps.great-controversy.plist 2>/dev/null
+    launchctl load ~/Library/LaunchAgents/com.apps.great-controversy.plist
+-->
+<plist version="1.0">
+<dict>
+    <key>Label</key>
+    <string>com.apps.great-controversy</string>
+
+    <key>ProgramArguments</key>
+    <array>
+        <string>/Users/elikim/great-controversy/scripts/launchd-start.sh</string>
+    </array>
+
+    <key>WorkingDirectory</key>
+    <string>/Users/elikim/great-controversy</string>
+
+    <key>EnvironmentVariables</key>
+    <dict>
+        <key>PORT</key>
+        <string>3001</string>
+        <key>NODE_ENV</key>
+        <string>production</string>
+    </dict>
+
+    <key>RunAtLoad</key>
+    <true/>
+
+    <key>KeepAlive</key>
+    <true/>
+
+    <key>StandardOutPath</key>
+    <string>/Users/elikim/Library/Logs/apps-great-controversy.log</string>
+
+    <key>StandardErrorPath</key>
+    <string>/Users/elikim/Library/Logs/apps-great-controversy.error.log</string>
+</dict>
+</plist>
