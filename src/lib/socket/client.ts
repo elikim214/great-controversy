@@ -16,8 +16,11 @@ export function getSocket(): Socket<ServerToClientEvents, ClientToServerEvents> 
       reconnectionAttempts: 10,
       reconnectionDelay: 1000,
       reconnectionDelayMax: 5000,
-      transports: ['websocket'],
-      upgrade: false,
+      // Start on polling (always works through the cloudflared tunnel), then
+      // upgrade to WebSocket when the network allows it. WS-only had no fallback,
+      // so any client on a network that blocks WebSockets hung on "Connecting…".
+      transports: ['polling', 'websocket'],
+      upgrade: true,
     });
     socket.on('connect', () => console.log('[Socket] connected, id:', socket!.id));
     socket.on('disconnect', (reason) => console.log('[Socket] disconnected:', reason));
