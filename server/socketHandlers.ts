@@ -393,6 +393,20 @@ export function registerSocketHandlers(
         }
       }
 
+      // Tell in-person players to physically seat themselves in the same order
+      // shown in the game. Numbering matches what the player list will render.
+      // Skip when only one human is playing (no "circle" to form).
+      const humans = room.players.filter(p => !p.isBot);
+      if (humans.length >= 2) {
+        const seatingList = humans
+          .map((p, i) => `${i + 1}. ${p.displayName}`)
+          .join('\n');
+        io.to(room.code).emit('game:phaseMessage', {
+          title: 'Sit Together in a Circle',
+          body: `Take seats around the table in this order before viewing your roles:\n\n${seatingList}`,
+        });
+      }
+
       broadcastRoomState(io, room);
 
       // Send private role info to each player (skip bots)

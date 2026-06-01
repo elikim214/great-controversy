@@ -754,11 +754,6 @@ export default function GameRoom() {
               </div>
             ) : (
               <div className="space-y-4">
-                <div className="bg-danger/10 border border-danger/30 rounded-xl p-3 text-center animate-fade-in">
-                  <p className="text-danger text-sm font-bold">
-                    Memorize the secret information below! You can view your role card anytime, but these secrets will NOT be shown again.
-                  </p>
-                </div>
                 <RoleCard info={privateInfo} players={roomState.players} />
 
                 {/* Ready confirmation button */}

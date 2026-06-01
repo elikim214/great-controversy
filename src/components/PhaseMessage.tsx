@@ -14,7 +14,7 @@ export default function PhaseMessage({ title, body, onDismiss }: Props) {
         onClick={e => e.stopPropagation()}
       >
         <h2 className="font-serif text-3xl font-bold text-gold mb-4 text-balance">{title}</h2>
-        <p className="text-foreground/80 text-lg leading-relaxed">{body}</p>
+        <p className="text-foreground/80 text-lg leading-relaxed whitespace-pre-line">{body}</p>
         {onDismiss && (
           <button onClick={onDismiss} className="btn btn-primary mt-6">
             Continue

@@ -69,31 +69,50 @@ export default function RoleCard({ info, players, compact }: Props) {
         {ROLE_DESCRIPTIONS[info.role]}
       </p>
 
-      {/* Secret knowledge */}
-      {knownBabylonNames.length > 0 && (
-        <div className="animate-fade-in-up delay-500">
-          <div className="border-t border-white/10 my-5" />
-          <p className="text-xs text-muted mb-2 uppercase tracking-wider">
-            {info.role === Role.Angel ? 'Babylon Agents' : 'Fellow Babylon'}
+      {/* One-time intel — visually demarcated so players know this (not the role itself) is the unrepeatable secret */}
+      {(knownBabylonNames.length > 0 || possibleAngelNames.length > 0) && (
+        <div
+          className="mt-6 px-4 py-4 rounded-lg animate-fade-in-up delay-500"
+          style={{
+            background: isBabylon ? 'rgba(217,79,79,0.08)' : 'rgba(200,164,78,0.08)',
+            border: `2px dashed ${isBabylon ? 'rgba(217,79,79,0.5)' : 'rgba(200,164,78,0.5)'}`,
+          }}
+        >
+          <p
+            className="text-center text-[11px] font-bold uppercase tracking-[0.18em] mb-1"
+            style={{ color: isBabylon ? 'var(--danger)' : 'var(--accent-gold)' }}
+          >
+            🤐 One-Time Intel
           </p>
-          <p className="text-danger font-semibold text-base">
-            {knownBabylonNames.join(', ')}
+          <p className="text-center text-[10px] text-muted mb-4 leading-relaxed">
+            Your role and abilities stay in your card all game.<br />
+            These names below are only shown here, now. Memorize them.
           </p>
-        </div>
-      )}
 
-      {possibleAngelNames.length > 0 && (
-        <div className="animate-fade-in-up delay-600">
-          <div className="border-t border-white/10 my-5" />
-          <p className="text-xs text-muted mb-2 uppercase tracking-wider">
-            {possibleAngelNames.length === 1 ? 'The Angel' : 'The Angel is one of'}
-          </p>
-          <p className="text-gold font-semibold text-base">
-            {possibleAngelNames.length === 1
-              ? possibleAngelNames[0]
-              : `${possibleAngelNames[0]} or ${possibleAngelNames[1]}`
-            }
-          </p>
+          {knownBabylonNames.length > 0 && (
+            <div className="text-center mb-3">
+              <p className="text-[10px] text-muted mb-1 uppercase tracking-wider">
+                {info.role === Role.Angel ? 'Babylon Agents' : 'Fellow Babylon'}
+              </p>
+              <p className="text-danger font-semibold text-base">
+                {knownBabylonNames.join(', ')}
+              </p>
+            </div>
+          )}
+
+          {possibleAngelNames.length > 0 && (
+            <div className="text-center">
+              <p className="text-[10px] text-muted mb-1 uppercase tracking-wider">
+                {possibleAngelNames.length === 1 ? 'The Angel' : 'The Angel is one of'}
+              </p>
+              <p className="text-gold font-semibold text-base">
+                {possibleAngelNames.length === 1
+                  ? possibleAngelNames[0]
+                  : `${possibleAngelNames[0]} or ${possibleAngelNames[1]}`
+                }
+              </p>
+            </div>
+          )}
         </div>
       )}
 
