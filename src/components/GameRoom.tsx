@@ -1207,11 +1207,11 @@ export default function GameRoom() {
 
       <p className="text-center text-xs text-muted mt-6 pb-2">v{APP_VERSION}</p>
 
-      {/* Extra padding when chat bar is visible */}
-      {isInGame && <div className="h-10" />}
-
-      {/* Chat panel — visible during gameplay */}
-      {isInGame && <ChatPanel />}
+      {/* Chat panel — visible during gameplay. Hidden during RoleReveal
+          so its fixed bottom-right pill doesn't sit on top of the
+          "I Have Memorized My Secrets" button on small viewports. */}
+      {isInGame && roomState.phase !== GamePhase.RoleReveal && <div className="h-10" />}
+      {isInGame && roomState.phase !== GamePhase.RoleReveal && <ChatPanel />}
 
       {/* Notes panel — slide-in from right */}
       {isInGame && (
