@@ -21,16 +21,25 @@ export default function ChatPanel() {
     expandedRef.current = expanded;
   }, [expanded]);
 
-  // Track unread messages
+  // Track unread messages + play notification sound
   useEffect(() => {
     if (chatMessages.length > prevMessageCountRef.current) {
-      if (!expandedRef.current) {
-        setUnreadCount(prev => prev + (chatMessages.length - prevMessageCountRef.current));
+      const myId = session?.playerId;
+      const incoming = chatMessages
+        .slice(prevMessageCountRef.current)
+        .filter(m => m.type !== 'system' && m.senderId !== myId);
+
+      if (incoming.length > 0) {
+        // Sound plays on every incoming chat from another player, even with
+        // panel open. Skipping own + system msgs avoids beeping at yourself.
         chatNotification();
+        if (!expandedRef.current) {
+          setUnreadCount(prev => prev + incoming.length);
+        }
       }
     }
     prevMessageCountRef.current = chatMessages.length;
-  }, [chatMessages.length]);
+  }, [chatMessages.length, session?.playerId]);
 
   // Clear unread when expanded
   useEffect(() => {
@@ -75,21 +84,35 @@ export default function ChatPanel() {
 
   return (
     <>
-      {/* Collapsed: small floating pill in bottom-right so it never hides UI */}
+      {/* Collapsed: small floating pill in bottom-right so it never hides UI.
+          When there are unread messages, the pill itself takes on a red
+          notification treatment so it's noticeable at a glance. */}
       {!expanded && (
         <button
           onClick={() => setExpanded(true)}
-          className="fixed bottom-4 right-4 z-50 flex items-center gap-2 px-4 py-2 rounded-full shadow-lg"
+          className={`fixed bottom-4 right-4 z-50 flex items-center gap-2 px-4 py-2 rounded-full shadow-lg ${
+            unreadCount > 0 ? 'animate-pulse-soft' : ''
+          }`}
           style={{
-            background: 'var(--card-bg)',
-            border: '1px solid rgba(255,255,255,0.12)',
+            background: unreadCount > 0 ? 'rgba(217,79,79,0.18)' : 'var(--card-bg)',
+            border: unreadCount > 0
+              ? '1px solid rgba(217,79,79,0.6)'
+              : '1px solid rgba(255,255,255,0.12)',
+            boxShadow: unreadCount > 0
+              ? '0 0 14px rgba(217,79,79,0.45), 0 4px 8px rgba(0,0,0,0.35)'
+              : '0 4px 8px rgba(0,0,0,0.35)',
           }}
         >
-          <span className="text-muted text-xs font-semibold uppercase tracking-wider">Chat</span>
+          <span
+            className="text-xs font-semibold uppercase tracking-wider"
+            style={{ color: unreadCount > 0 ? 'var(--danger)' : 'var(--muted)' }}
+          >
+            Chat
+          </span>
           {unreadCount > 0 && (
             <span
-              className="text-white text-[10px] font-bold rounded-full px-1.5 py-0.5 min-w-[18px] text-center animate-scale-in"
-              style={{ background: 'var(--accent-blue)' }}
+              className="text-white text-[11px] font-bold rounded-full px-1.5 py-0.5 min-w-[20px] text-center"
+              style={{ background: 'var(--danger)' }}
             >
               {unreadCount}
             </span>
@@ -109,14 +132,25 @@ export default function ChatPanel() {
               borderTop: '1px solid rgba(255,255,255,0.08)',
             }}
           >
-            {/* Header */}
+            {/* Header — chevron pill on the right is a proper-feeling button so
+                players can find their way out of the chat on small screens. */}
             <button
               onClick={() => setExpanded(false)}
-              className="flex items-center justify-between px-4 py-2 shrink-0"
+              className="flex items-center justify-between px-4 py-2.5 shrink-0 transition-colors active:bg-white/10"
               style={{ borderBottom: '1px solid rgba(255,255,255,0.06)' }}
             >
               <span className="text-muted text-xs font-semibold uppercase tracking-wider">Chat</span>
-              <span className="text-muted text-[10px]">tap to collapse</span>
+              <span
+                className="flex items-center gap-1.5 text-xs font-semibold px-3 py-1 rounded-full"
+                style={{
+                  background: 'rgba(255,255,255,0.08)',
+                  border: '1px solid rgba(255,255,255,0.15)',
+                  color: 'var(--foreground)',
+                }}
+              >
+                <span>Collapse</span>
+                <span aria-hidden className="text-[10px]">▾</span>
+              </span>
             </button>
 
             {/* Messages */}
