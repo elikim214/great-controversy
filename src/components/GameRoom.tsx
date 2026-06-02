@@ -742,7 +742,7 @@ export default function GameRoom() {
                     Make sure no one else can see your screen.
                   </p>
                   <p className="text-danger text-xs font-bold mb-6">
-                    Secret information will NOT be shown again after this phase.
+                    Your role stays accessible — hidden intel below appears only this once.
                   </p>
                 </div>
                 <RoleRevealCard
