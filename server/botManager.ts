@@ -219,8 +219,15 @@ export function processBotActions(
     return;
   }
 
-  // If MissionReveal, auto-advance if host is a bot
+  // If MissionReveal, let bots react to the result before the host advances —
+  // this is the phase where mission_success/mission_fail context matters most
+  // for social-deduction signal, and prior to this fix the early-return below
+  // meant bots stayed silent right when players most needed their take.
   if (room.phase === GamePhase.MissionReveal) {
+    const clientState = buildBotClientState(room);
+    const phaseKey = `${room.phase}-${room.currentMissionIndex}`;
+    scheduleBotChat(room, io, states, clientState, phaseKey);
+
     const host = room.players.find(p => p.id === room.hostId);
     if (host?.isBot) {
       setTimeout(() => {
@@ -407,13 +414,22 @@ function scheduleBotChat(
     else if (prevMission?.result === 'success') context = 'missionSuccess';
   } else if (room.phase === GamePhase.TeamVote) {
     context = 'voteResult';
+  } else if (room.phase === GamePhase.MissionReveal) {
+    if (currentMission?.result === 'success') context = 'missionSuccess';
+    else if (currentMission?.result === 'failure') context = 'missionFail';
   }
 
+  // Mission-reveal reactions are higher-signal — humans need the bots' takes
+  // to inform their deduction. Boost frequency + allow up to 2 reactions.
+  const isMissionReveal = room.phase === GamePhase.MissionReveal;
+  const chatChance = isMissionReveal ? 0.6 : 0.2;
+  const maxChats = isMissionReveal ? 2 : 1;
+
   const botIds = getBotIds(room);
-  let chatSent = false;
+  let chatSent = 0;
 
   for (const botId of botIds) {
-    if (chatSent) break; // Max 1 chat per phase cycle
+    if (chatSent >= maxChats) break;
 
     const botState = states.get(botId);
     if (!botState) continue;
@@ -421,13 +437,13 @@ function scheduleBotChat(
     // Skip if already chatted this phase
     if (botState.lastChatPhase === phaseKey) continue;
 
-    // 20% chance of chatting
-    if (Math.random() > 0.2) continue;
+    if (Math.random() > chatChance) continue;
 
     botState.lastChatPhase = phaseKey;
-    chatSent = true;
+    chatSent++;
 
-    const delay = 1500 + Math.floor(Math.random() * 3000);
+    // Spread out the two mission-reveal reactions so they don't burst together
+    const delay = 1500 + chatSent * 1200 + Math.floor(Math.random() * 2000);
     setTimeout(async () => {
       try {
         const text = await generateBotChat(botState, clientState, context);
