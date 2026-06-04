@@ -130,25 +130,7 @@ export default function MissionActionPanel({ mission, privateInfo, myId, onSubmi
         {mission.location.flavorText}
       </p>
 
-      <div className="flex gap-3 animate-slide-up delay-800">
-        <button
-          onClick={() => handleAction(false)}
-          className="btn btn-success flex-1"
-        >
-          Support Mission
-        </button>
-        {isBabylon && (
-          <button
-            onClick={() => handleAction(true)}
-            className="btn btn-danger flex-1"
-          >
-            Sabotage
-          </button>
-        )}
-      </div>
-      <p className="text-[9px] text-muted text-center mt-1">{isBabylon ? 'Keys: S = Support \u00B7 X = Sabotage' : 'Key: S = Support'}</p>
-
-      <div className={`text-xs text-center mt-3 px-3 py-2 rounded-lg animate-fade-in delay-900 ${
+      <div className={`text-xs text-center mt-3 mb-3 px-3 py-2 rounded-lg animate-fade-in delay-900 ${
         mission.requiresTwoFails
           ? 'bg-gold/10 border border-gold/20 text-gold font-bold'
           : 'bg-card border border-card-border text-muted'
@@ -156,6 +138,34 @@ export default function MissionActionPanel({ mission, privateInfo, myId, onSubmi
         {mission.requiresTwoFails
           ? 'This mission requires 2 sabotage cards to fail'
           : '1 sabotage card will fail this mission'}
+      </div>
+
+      {/* Sticky action bar \u2014 pins to viewport bottom while scrolling through
+          the LocationInfoCard above. pr keeps the right edge clear of the
+          fixed chat pill at bottom-4 right-4. */}
+      <div
+        className="sticky bottom-0 z-30 -mx-4 px-4 pt-3 pb-3 animate-slide-up delay-800"
+        style={{
+          background: 'linear-gradient(to top, var(--background) 70%, rgba(10,14,26,0.85) 90%, transparent)',
+        }}
+      >
+        <div className="flex gap-3 pr-[88px]">
+          <button
+            onClick={() => handleAction(false)}
+            className="btn btn-success flex-1"
+          >
+            Support Mission
+          </button>
+          {isBabylon && (
+            <button
+              onClick={() => handleAction(true)}
+              className="btn btn-danger flex-1"
+            >
+              Sabotage
+            </button>
+          )}
+        </div>
+        <p className="text-[9px] text-muted text-center mt-1 pr-[88px]">{isBabylon ? 'Keys: S = Support \u00B7 X = Sabotage' : 'Key: S = Support'}</p>
       </div>
     </div>
   );

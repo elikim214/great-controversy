@@ -230,22 +230,32 @@ export default function VotePanel({ proposal, players, myId, onVote, missions, c
           </p>
         </div>
       ) : (
-        <div className="space-y-3 animate-slide-up delay-200">
-          <button
-            onClick={() => handleVote(true)}
-            className="btn btn-success w-full"
-            style={{ minHeight: 56 }}
-          >
-            Approve
-          </button>
-          <button
-            onClick={() => handleVote(false)}
-            className="btn btn-danger w-full"
-            style={{ minHeight: 56 }}
-          >
-            Reject
-          </button>
-          <p className="text-[9px] text-muted text-center mt-1">Keys: A = Approve {'\u00B7'} R = Reject</p>
+        /* Sticky action bar \u2014 keeps Approve/Reject reachable even when the
+           mission destination card and vote history below push them off
+           the visible viewport. */
+        <div
+          className="sticky bottom-0 z-30 -mx-4 px-4 pt-3 pb-3 animate-slide-up delay-200"
+          style={{
+            background: 'linear-gradient(to top, var(--background) 70%, rgba(10,14,26,0.85) 90%, transparent)',
+          }}
+        >
+          <div className="space-y-3 pr-[88px]">
+            <button
+              onClick={() => handleVote(true)}
+              className="btn btn-success w-full"
+              style={{ minHeight: 56 }}
+            >
+              Approve
+            </button>
+            <button
+              onClick={() => handleVote(false)}
+              className="btn btn-danger w-full"
+              style={{ minHeight: 56 }}
+            >
+              Reject
+            </button>
+            <p className="text-[9px] text-muted text-center mt-1">Keys: A = Approve {'\u00B7'} R = Reject</p>
+          </div>
         </div>
       )}
       {showVoteHistory && pastProposals.length > 0 && (
