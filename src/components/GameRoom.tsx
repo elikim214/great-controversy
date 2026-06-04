@@ -424,14 +424,14 @@ export default function GameRoom() {
                   setSoundOn(next);
                   setSoundEnabled(next);
                 }}
-                className="text-[10px] px-1.5 py-0.5 rounded border border-white/10 text-muted hover:text-light hover:border-white/20 transition-colors"
+                className="inline-flex items-center justify-center min-w-[44px] min-h-[44px] text-sm rounded border border-white/10 text-muted hover:text-light hover:border-white/20 transition-colors"
                 title={soundOn ? 'Mute sounds' : 'Unmute sounds'}
               >
                 {soundOn ? '\uD83D\uDD0A' : '\uD83D\uDD07'}
               </button>
               <button
                 onClick={() => setNotesOpen(true)}
-                className="text-[10px] px-2 py-0.5 rounded border border-white/10 text-muted hover:text-light hover:border-white/20 transition-colors"
+                className="inline-flex items-center justify-center min-w-[44px] min-h-[44px] text-[11px] rounded border border-white/10 text-muted hover:text-light hover:border-white/20 transition-colors"
                 title="Private Notes"
               >
                 Notes
