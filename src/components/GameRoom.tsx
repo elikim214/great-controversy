@@ -540,8 +540,10 @@ export default function GameRoom() {
         </div>
       )}
 
-      {/* Mission location — bigger, bolder hero */}
-      {currentMission && roomState.phase !== GamePhase.Lobby && roomState.phase !== GamePhase.RoleReveal && roomState.phase !== GamePhase.FirstNight && roomState.phase !== GamePhase.GameOver && (
+      {/* Mission location — bigger, bolder hero. Skipped during MissionAction
+          because MissionActionPanel renders its own (more detailed) location
+          card; showing both was the dominant cause of mobile-scroll overflow. */}
+      {currentMission && roomState.phase !== GamePhase.Lobby && roomState.phase !== GamePhase.RoleReveal && roomState.phase !== GamePhase.FirstNight && roomState.phase !== GamePhase.GameOver && roomState.phase !== GamePhase.MissionAction && (
         <div className="mb-4 animate-fade-in-up">
           <div className="hero-location" style={{ minHeight: '220px' }}>
             {/* Location transition fog */}
