@@ -188,17 +188,30 @@ export function advanceFirstNight(room: Room): Room {
 export function proposeTeam(room: Room, memberIds: string[]): Room {
   const mission = room.missions[room.currentMissionIndex];
 
+  // HAMMER rule: the 5th (final) proposal of a round auto-passes. Otherwise
+  // Babylon could grief by rejecting every team to collapse the mission as
+  // a failure. With hammer, Babylon has to either pass a vote or accept the
+  // leader's last team — adds meaningful "who gets the final pick" tension.
+  const isHammer = room.consecutiveRejections >= MAX_REJECTIONS - 1;
+
   const proposal: TeamProposal = {
     leaderId: room.players[room.currentLeaderIndex].id,
     memberIds,
     votes: {},
-    resolved: false,
-    approved: null,
+    resolved: isHammer,
+    approved: isHammer ? true : null,
   };
 
   mission.proposals.push(proposal);
   mission.currentProposalIndex = mission.proposals.length - 1;
-  room.phase = GamePhase.TeamVote;
+
+  if (isHammer) {
+    mission.team = memberIds;
+    room.consecutiveRejections = 0;
+    room.phase = GamePhase.MissionAction;
+  } else {
+    room.phase = GamePhase.TeamVote;
+  }
 
   return room;
 }

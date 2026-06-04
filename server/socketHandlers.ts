@@ -53,7 +53,7 @@ import {
   validateEvangelistConvert,
   validateAssassinGuess,
 } from '../src/lib/game/validators';
-import { MAX_BOTS, MAX_PLAYERS } from '../src/lib/game/config';
+import { MAX_BOTS, MAX_PLAYERS, MAX_REJECTIONS } from '../src/lib/game/config';
 import {
   addBot,
   removeBot,
@@ -501,7 +501,19 @@ export function registerSocketHandlers(
         return;
       }
 
+      const wasFifth = room.consecutiveRejections >= MAX_REJECTIONS - 1;
       proposeTeam(room, data.memberIds);
+
+      // If the hammer fired, players skipped the vote and went straight to
+      // MissionAction. Surface a phaseMessage so they understand why.
+      if (wasFifth && room.phase === GamePhase.MissionAction) {
+        const leaderName = room.players.find(p => p.id === room.players[room.currentLeaderIndex].id)?.displayName ?? 'The leader';
+        io.to(room.code).emit('game:phaseMessage', {
+          title: 'Hammer — Final Proposal',
+          body: `Four proposals were rejected in a row.\n\n${leaderName}'s 5th team is automatically accepted and the mission begins.`,
+        });
+      }
+
       broadcastRoomState(io, room);
       triggerBots(io, room);
     });
