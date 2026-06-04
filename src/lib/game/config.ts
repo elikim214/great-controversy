@@ -65,12 +65,16 @@ export const TOTAL_MISSIONS = 5;
 export const MISSIONS_TO_WIN = 3;
 
 /**
- * Mission 4 always requires 2 sabotage cards to fail (all player counts).
- * All other missions require 1 sabotage.
- * This matches Avalon's rules and works with the updated team sizes.
+ * Mission 4 requires 2 sabotage cards to fail at 7+ players (Avalon rule).
+ * 5–6 player games stay at 1 sabotage threshold — otherwise Mission Team
+ * is too weak with the smaller team sizes.
+ * Was: previously returned 2 for ALL counts, disagreeing with the
+ * mission.requiresTwoFails flag (which already used the 7+ gate). The
+ * mismatch caused 5–6 player games to show "1 sabotage will fail" while
+ * actually requiring 2 — a silent rules bug.
  */
-export function getSabotageThreshold(missionNumber: number, _playerCount: number): number {
-  if (missionNumber === 4) return 2;
+export function getSabotageThreshold(missionNumber: number, playerCount: number): number {
+  if (missionNumber === 4 && playerCount >= 7) return 2;
   return 1;
 }
 
