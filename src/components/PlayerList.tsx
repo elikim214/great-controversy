@@ -70,7 +70,7 @@ export default function PlayerList({
             }}
           >
             <div
-              className="flex items-center justify-between px-3 py-2.5"
+              className={`flex items-center justify-between px-3 ${isActiveGame ? 'py-2.5' : 'py-1.5'}`}
               onClick={() => {
                 if (selectable && canSelect && onToggleSelect) {
                   onToggleSelect(p.id);
