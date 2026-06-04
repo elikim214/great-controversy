@@ -230,6 +230,14 @@ export default function VotePanel({ proposal, players, myId, onVote, missions, c
           </p>
         </div>
       ) : (
+        <>
+          {/* Live progress before voting — count only, not direction, so the
+              suspenseful reveal still works when the vote resolves. */}
+          {proposal.votedPlayerIds.length > 0 && (
+            <p className="text-[11px] text-muted text-center mb-2 animate-fade-in">
+              {proposal.votedPlayerIds.length} / {players.length} have voted — your vote is needed
+            </p>
+          )}
         /* Sticky action bar \u2014 keeps Approve/Reject reachable even when the
            mission destination card and vote history below push them off
            the visible viewport. */
@@ -257,6 +265,7 @@ export default function VotePanel({ proposal, players, myId, onVote, missions, c
             <p className="text-[9px] text-muted text-center mt-1">Keys: A = Approve {'\u00B7'} R = Reject</p>
           </div>
         </div>
+        </>
       )}
       {showVoteHistory && pastProposals.length > 0 && (
         <div className="mt-5 pt-4" style={{ borderTop: '1px solid rgba(255,255,255,0.08)' }}>
